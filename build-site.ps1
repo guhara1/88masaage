@@ -554,7 +554,7 @@ function Dong-Links($regionSlug, $parentSlug) {
   $items = $dongAreas | Where-Object { $_.regionSlug -eq $regionSlug -and $_.parentSlug -eq $parentSlug } | Sort-Object name
   if (!$items -or $items.Count -eq 0) { return "" }
   $links = ($items | ForEach-Object { "<a class=`"pill`" href=`"$($_.parentUrl)$($_.slug)/`">$($_.name)</a>" }) -join ""
-  return "<section class=`"content-section related`"><h2>행정동 ㄱㄴㄷ 안내</h2><div>$links</div></section>"
+  return "<section class=`"content-section related`"><h2>행정동 안내</h2><div>$links</div></section>"
 }
 
 function Layout($title, $description, $path, $body, $schemaType, $areaServed) {
