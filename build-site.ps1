@@ -58,6 +58,8 @@ $regions = @(
   @{slug="sejong"; name="세종"; focus="정부청사, 신도심 아파트, 조치원 생활권의 이용 상황이 다릅니다"; movement="건물 출입 보안이 까다로운 곳이 있어 방문자 등록 가능 여부를 알려 주면 좋습니다"; cost="세종 외곽과 대전 인접 권역은 배정 가능 시간 확인이 우선입니다"},
   @{slug="gangwon"; name="강원"; focus="원주, 춘천, 강릉처럼 도시별 거리 차이가 커 여행 숙소 문의가 많은 지역"; movement="리조트와 펜션은 주소가 비슷해도 진입로가 달라 정확한 위치 공유가 필요합니다"; cost="산간·해안 이동은 기상과 시간대 영향을 받아 사전 상담이 중요합니다"},
   @{slug="chungcheong"; name="충청"; focus="천안, 청주, 아산, 당진처럼 산업과 주거 수요가 함께 있는 권역"; movement="고속도로와 산업단지 퇴근 시간 영향을 받아 시작 시간을 여유 있게 잡는 것이 좋습니다"; cost="시 경계를 넘는 이동은 예약 전 예상 도착 시간을 안내합니다"},
+  @{slug="jeolla"; name="전라"; focus="전주, 광주 인접 생활권, 여수와 목포처럼 도시와 해안 관광지가 함께 있는 권역"; movement="도심, 혁신도시, 항만·관광 숙소의 이동 조건이 달라 상세 주소 확인이 중요합니다"; cost="섬 지역과 해안 장거리 이동은 당일 배정 가능 여부를 먼저 확인합니다"},
+  @{slug="gyeongsang"; name="경상"; focus="대구·부산 인접 생활권과 창원, 포항, 구미처럼 산업도시 수요가 함께 있는 권역"; movement="산업단지 교대 시간, 해안 관광지, 도심 상권의 이동 흐름이 서로 다릅니다"; cost="시군 경계를 넘는 이동은 거리와 시간대에 따라 출장비 기준을 별도로 안내합니다"},
   @{slug="jeju"; name="제주"; focus="공항, 제주시, 서귀포, 중문 숙소 중심으로 여행 후 휴식 문의가 많습니다"; movement="렌터카 이동과 숙소 체크인 시간이 겹치면 예약 변경 가능성을 고려해야 합니다"; cost="동부·서부 해안 숙소는 이동 시간이 길어 당일 가능 여부를 먼저 확인합니다"}
 )
 
@@ -89,20 +91,280 @@ $districts = @(
   @{slug="gwanak-gu"; name="관악구"; zones="서울대입구, 신림, 봉천, 낙성대"; scene="원룸과 오피스텔 예약이 많아 공간 크기와 소음 기준을 먼저 확인합니다"}
 )
 
-$adminAreas = @(
-  @{slug="suwon"; name="수원"; parent="경기"; zones="광교, 인계, 영통, 권선"; scene="업무지와 신도시 주거권이 가까워 저녁 예약이 안정적으로 이어집니다"},
-  @{slug="seongnam"; name="성남"; parent="경기"; zones="판교, 분당, 야탑, 위례"; scene="IT 업무 일정과 주거지 방문이 섞여 평일 늦은 문의가 많습니다"},
-  @{slug="goyang"; name="고양"; parent="경기"; zones="일산, 화정, 삼송, 킨텍스"; scene="전시 일정 뒤 숙소에서 휴식을 찾는 고객과 주거권 문의가 함께 있습니다"},
-  @{slug="yongin"; name="용인"; parent="경기"; zones="수지, 기흥, 처인, 동백"; scene="지역 범위가 넓어 같은 용인 안에서도 이동 시간 확인이 중요합니다"},
-  @{slug="bucheon"; name="부천"; parent="경기"; zones="중동, 상동, 송내, 역곡"; scene="역세권 오피스텔과 주거 단지 예약이 균형 있게 들어옵니다"},
-  @{slug="yeonsu-gu"; name="연수구"; parent="인천"; zones="송도, 연수, 동춘, 청학"; scene="국제업무지구와 주거 단지가 붙어 있어 건물 출입 기준이 다양합니다"},
-  @{slug="bupyeong-gu"; name="부평구"; parent="인천"; zones="부평역, 삼산, 갈산, 산곡"; scene="상권과 주거지가 섞여 늦은 저녁 상담에서 정확한 위치가 중요합니다"},
-  @{slug="haeundae-gu"; name="해운대구"; parent="부산"; zones="해운대, 센텀, 좌동, 송정"; scene="관광 숙소와 업무 미팅 후 예약이 함께 있어 성수기 여유 시간이 필요합니다"},
-  @{slug="busanjin-gu"; name="부산진구"; parent="부산"; zones="서면, 부전, 전포, 가야"; scene="도심 상권 중심 예약이 많아 이동과 주차 조건을 먼저 봅니다"},
-  @{slug="changwon"; name="창원"; parent="경상"; zones="성산, 의창, 마산, 진해"; scene="산업단지 근무 일정과 주거권 문의가 함께 나타납니다"},
-  @{slug="cheongju"; name="청주"; parent="충청"; zones="오송, 복대, 율량, 상당"; scene="오송 출장과 도심 주거권 예약이 섞여 일정 확인이 중요합니다"},
-  @{slug="jeonju"; name="전주"; parent="전라"; zones="완산, 덕진, 혁신도시, 한옥마을"; scene="여행 숙소와 주거지 예약이 모두 있어 공간 유형별 안내가 필요합니다"}
-)
+$adminAreaRows = @"
+gyeonggi|경기|city|suwon-si|수원시|광교, 인계, 영통, 권선|업무지와 신도시 주거권이 가까워 저녁 예약이 안정적으로 이어집니다
+gyeonggi|경기|admin-gu|suwon-jangan-gu|수원 장안구|정자, 영화, 조원, 파장|북수원 주거권과 구도심 생활권이 섞여 조용한 방문 요청이 많습니다
+gyeonggi|경기|admin-gu|suwon-gwonseon-gu|수원 권선구|권선, 호매실, 세류, 고색|서수원 주거지와 산업권 이동이 겹쳐 주차 조건 확인이 중요합니다
+gyeonggi|경기|admin-gu|suwon-paldal-gu|수원 팔달구|인계, 매산, 화서, 행궁|상권과 숙소 문의가 많아 출입구와 예약명 확인을 먼저 봅니다
+gyeonggi|경기|admin-gu|suwon-yeongtong-gu|수원 영통구|영통, 광교, 매탄, 망포|신도시 업무지와 대단지 아파트 예약이 함께 들어옵니다
+gyeonggi|경기|city|seongnam-si|성남시|판교, 분당, 야탑, 위례|IT 업무 일정과 주거지 방문이 섞여 평일 늦은 문의가 많습니다
+gyeonggi|경기|admin-gu|seongnam-sujeong-gu|성남 수정구|위례, 신흥, 태평, 수진|서울 인접 이동과 구도심 주거권 특성이 함께 나타납니다
+gyeonggi|경기|admin-gu|seongnam-jungwon-gu|성남 중원구|모란, 상대원, 금광, 은행|산업권과 역세권 문의가 섞여 시작 시간 조율이 필요합니다
+gyeonggi|경기|admin-gu|seongnam-bundang-gu|성남 분당구|서현, 정자, 수내, 판교|업무지와 주거 단지가 가까워 방문자 등록 기준이 다양합니다
+gyeonggi|경기|city|uijeongbu-si|의정부시|의정부역, 민락, 가능, 녹양|북부 교통 거점과 주거지가 함께 있어 이동 여유 확인이 필요합니다
+gyeonggi|경기|city|anyang-si|안양시|범계, 평촌, 안양일번가, 관양|평촌 업무지와 구도심 상권 예약이 시간대별로 갈립니다
+gyeonggi|경기|admin-gu|anyang-manan-gu|안양 만안구|안양역, 석수, 박달, 명학|구도심 주거지와 역세권 숙소 문의가 함께 있습니다
+gyeonggi|경기|admin-gu|anyang-dongan-gu|안양 동안구|평촌, 범계, 관양, 호계|업무지와 아파트 단지 출입 기준 확인이 중요합니다
+gyeonggi|경기|city|bucheon-si|부천시|중동, 상동, 송내, 역곡|역세권 오피스텔과 주거 단지 예약이 균형 있게 들어옵니다
+gyeonggi|경기|admin-gu|bucheon-wonmi-gu|부천 원미구|중동, 상동, 심곡, 춘의|상권과 오피스텔 방문이 많아 공동현관 안내가 필요합니다
+gyeonggi|경기|admin-gu|bucheon-sosa-gu|부천 소사구|소사본, 범박, 괴안, 옥길|주거 단지 중심 예약이 많고 조용한 방문을 선호합니다
+gyeonggi|경기|admin-gu|bucheon-ojeong-gu|부천 오정구|오정, 원종, 고강, 여월|공항 인접 이동과 주거권 예약 조건을 함께 봅니다
+gyeonggi|경기|city|gwangmyeong-si|광명시|철산, 하안, 소하, 일직|서울 서남권과 맞닿아 퇴근 시간 이동 변수가 큽니다
+gyeonggi|경기|city|pyeongtaek-si|평택시|고덕, 소사벌, 평택역, 안중|산업단지와 미군기지 인접 생활권 문의가 함께 나타납니다
+gyeonggi|경기|city|dongducheon-si|동두천시|지행, 생연, 송내, 보산|북부 생활권 특성상 야간 이동 가능 시간을 먼저 확인합니다
+gyeonggi|경기|city|ansan-si|안산시|중앙, 고잔, 선부, 반월|산업권과 주거지가 함께 있어 예약 시간대별 이동 차이가 있습니다
+gyeonggi|경기|admin-gu|ansan-sangnok-gu|안산 상록구|상록수, 본오, 사동, 이동|대학가와 주거 단지 문의가 섞여 공간 조건 확인이 필요합니다
+gyeonggi|경기|admin-gu|ansan-danwon-gu|안산 단원구|고잔, 선부, 초지, 반월공단|공단 근무 후 이용 문의가 많아 퇴근 시간 변수를 봅니다
+gyeonggi|경기|city|goyang-si|고양시|일산, 화정, 삼송, 킨텍스|전시 일정 뒤 숙소에서 휴식을 찾는 고객과 주거권 문의가 함께 있습니다
+gyeonggi|경기|admin-gu|goyang-deogyang-gu|고양 덕양구|화정, 행신, 원흥, 삼송|서울 접근 이동과 신도시 주거권 예약이 함께 있습니다
+gyeonggi|경기|admin-gu|goyang-ilsandong-gu|고양 일산동구|마두, 백석, 장항, 정발산|상권과 숙소 방문이 많아 주차 동선 확인이 중요합니다
+gyeonggi|경기|admin-gu|goyang-ilsanseo-gu|고양 일산서구|대화, 주엽, 탄현, 킨텍스|전시 행사 시간과 주거권 예약 흐름이 겹칩니다
+gyeonggi|경기|city|gwacheon-si|과천시|정부과천청사, 별양, 중앙, 문원|행정기관과 주거지가 가까워 보안 출입 기준을 확인합니다
+gyeonggi|경기|city|guri-si|구리시|인창, 수택, 갈매, 교문|서울 동북권 이동과 주거 단지 방문이 함께 나타납니다
+gyeonggi|경기|city|namyangju-si|남양주시|다산, 별내, 평내, 화도|신도시와 외곽 생활권이 넓어 세부 주소 확인이 중요합니다
+gyeonggi|경기|city|osan-si|오산시|오산역, 세교, 궐동, 원동|수원·평택 이동축과 주거권 예약이 함께 있습니다
+gyeonggi|경기|city|siheung-si|시흥시|배곧, 정왕, 은계, 장곡|해안 신도시와 산업권 이동 변수가 함께 나타납니다
+gyeonggi|경기|city|gunpo-si|군포시|산본, 금정, 당동, 부곡|역세권과 아파트 단지 예약이 많아 공동현관 기준을 봅니다
+gyeonggi|경기|city|uiwang-si|의왕시|내손, 오전, 포일, 청계|안양·분당 이동권 사이에 있어 시간 조율이 중요합니다
+gyeonggi|경기|city|hanam-si|하남시|미사, 감일, 덕풍, 신장|신도시 주거권과 스타필드 인근 숙소 문의가 함께 있습니다
+gyeonggi|경기|city|yongin-si|용인시|수지, 기흥, 처인, 동백|지역 범위가 넓어 같은 용인 안에서도 이동 시간 확인이 중요합니다
+gyeonggi|경기|admin-gu|yongin-cheoin-gu|용인 처인구|김량장, 역북, 포곡, 모현|외곽 이동과 주거권 예약의 거리 차이가 큽니다
+gyeonggi|경기|admin-gu|yongin-giheung-gu|용인 기흥구|구갈, 보정, 동백, 신갈|분당·수원 이동축과 대단지 아파트 문의가 많습니다
+gyeonggi|경기|admin-gu|yongin-suji-gu|용인 수지구|풍덕천, 죽전, 성복, 상현|서울 통근 생활권과 주거지 예약이 중심입니다
+gyeonggi|경기|city|paju-si|파주시|운정, 금촌, 문산, 야당|신도시와 북부 외곽 이동 조건이 달라 주소 확인이 중요합니다
+gyeonggi|경기|city|icheon-si|이천시|창전, 증포, 부발, 마장|물류·산업 일정 후 문의와 주거권 예약이 함께 있습니다
+gyeonggi|경기|city|anseong-si|안성시|공도, 석정, 대덕, 죽산|평택 인접 생활권과 외곽 이동 여부를 함께 확인합니다
+gyeonggi|경기|city|gimpo-si|김포시|구래, 장기, 사우, 풍무|한강신도시와 공항 인접 이동 변수가 있습니다
+gyeonggi|경기|city|hwaseong-si|화성시|동탄, 병점, 향남, 봉담|동탄 업무지와 외곽 산업권의 이동 차이가 큽니다
+gyeonggi|경기|city|gwangju-si|광주시|경안, 태전, 오포, 곤지암|분당 인접권과 외곽 주거지가 넓게 퍼져 있습니다
+gyeonggi|경기|city|yangju-si|양주시|옥정, 덕정, 회천, 광적|신도시와 북부 외곽 이동 조건을 함께 봅니다
+gyeonggi|경기|city|pocheon-si|포천시|소흘, 신읍, 일동, 이동|산간 이동과 군부대 인접 생활권 문의가 있습니다
+gyeonggi|경기|city|yeoju-si|여주시|여주역, 오학, 가남, 대신|관광지와 외곽 생활권 이동 시간이 달라집니다
+gyeonggi|경기|county|yeoncheon-gun|연천군|전곡, 연천, 청산, 군남|북부 장거리 이동이 많아 당일 가능 여부를 먼저 봅니다
+gyeonggi|경기|county|gapyeong-gun|가평군|가평읍, 청평, 설악, 조종|펜션과 리조트 방문 문의가 많아 정확한 위치 공유가 중요합니다
+gyeonggi|경기|county|yangpyeong-gun|양평군|양평읍, 용문, 서종, 강상|전원주택과 숙박시설 진입로 확인이 필요합니다
+"@
+
+$adminAreaRows += @"
+jeolla|전라|city|jeonju-si|전주시|완산, 덕진, 혁신도시, 한옥마을|여행 숙소와 주거지 예약이 모두 있어 공간 유형별 안내가 필요합니다
+jeolla|전라|admin-gu|jeonju-wansan-gu|전주 완산구|한옥마을, 효자, 삼천, 평화|관광 숙소와 주거권 문의가 함께 있습니다
+jeolla|전라|admin-gu|jeonju-deokjin-gu|전주 덕진구|덕진, 송천, 인후, 혁신도시|대학가와 신도시 생활권 예약이 섞입니다
+jeolla|전라|city|gunsan-si|군산시|수송, 나운, 조촌, 비응항|산업권과 항만 숙소 문의가 함께 있습니다
+jeolla|전라|city|iksan-si|익산시|영등, 모현, 어양, 함열|역세권과 주거권 예약이 균형 있게 나타납니다
+jeolla|전라|city|jeongeup-si|정읍시|수성, 상동, 연지, 내장산|도심과 관광지 이동 조건을 함께 확인합니다
+jeolla|전라|city|namwon-si|남원시|도통, 향교, 금동, 운봉|관광 숙소와 외곽 이동 가능 시간을 봅니다
+jeolla|전라|city|gimje-si|김제시|검산, 요촌, 신풍, 만경|전주 인접 생활권과 농촌 외곽 이동을 확인합니다
+jeolla|전라|county|wanju-gun|완주군|봉동, 삼례, 이서, 용진|전주 인접권과 산업단지 예약이 함께 있습니다
+jeolla|전라|county|jinan-gun|진안군|진안읍, 마령, 부귀, 용담|산간 이동과 펜션 위치 확인이 중요합니다
+jeolla|전라|county|muju-gun|무주군|무주읍, 설천, 안성, 적상|리조트와 산간 숙소 방문 조건을 봅니다
+jeolla|전라|county|jangsu-gun|장수군|장수읍, 장계, 번암, 산서|외곽 이동 시간이 길어 사전 확인이 필요합니다
+jeolla|전라|county|imsil-gun|임실군|임실읍, 관촌, 오수, 성수|전주 인접 이동과 외곽 숙소 조건을 함께 봅니다
+jeolla|전라|county|sunchang-gun|순창군|순창읍, 복흥, 구림, 적성|관광지와 농촌 생활권 이동을 확인합니다
+jeolla|전라|county|gochang-gun|고창군|고창읍, 흥덕, 심원, 선운산|해안·관광 숙소 위치 확인이 중요합니다
+jeolla|전라|county|buan-gun|부안군|부안읍, 변산, 줄포, 계화|변산반도 숙소와 외곽 이동 조건을 봅니다
+jeolla|전라|city|mokpo-si|목포시|하당, 평화광장, 용당, 북항|항만과 해안 숙소 문의가 많습니다
+jeolla|전라|city|yeosu-si|여수시|웅천, 학동, 여천, 돌산|관광 숙소와 산업권 이동 조건이 함께 나타납니다
+jeolla|전라|city|suncheon-si|순천시|조례, 연향, 왕지, 오천|도심 주거권과 관광 일정 문의가 함께 있습니다
+jeolla|전라|city|naju-si|나주시|빛가람, 금남, 성북, 남평|혁신도시와 구도심 예약이 함께 있습니다
+jeolla|전라|city|gwangyang-si|광양시|중마, 광양읍, 금호, 태인|산업단지와 항만 이동 시간이 변수입니다
+jeolla|전라|county|damyang-gun|담양군|담양읍, 수북, 창평, 메타세쿼이아길|관광 숙소와 광주 인접 이동을 확인합니다
+jeolla|전라|county|gokseong-gun|곡성군|곡성읍, 옥과, 석곡, 오곡|관광지와 외곽 숙소 위치 확인이 필요합니다
+jeolla|전라|county|gurye-gun|구례군|구례읍, 산동, 마산, 토지|지리산 인접 숙소와 산간 이동을 봅니다
+jeolla|전라|county|goheung-gun|고흥군|고흥읍, 도양, 과역, 봉래|해안 장거리 이동 가능 여부를 먼저 봅니다
+jeolla|전라|county|boseong-gun|보성군|보성읍, 벌교, 득량, 회천|차밭 관광지와 해안 숙소 문의가 있습니다
+jeolla|전라|county|hwasun-gun|화순군|화순읍, 능주, 도곡, 동면|광주 인접 생활권과 외곽 이동을 함께 봅니다
+jeolla|전라|county|jangheung-gun|장흥군|장흥읍, 관산, 대덕, 안양|해안과 내륙 이동 조건이 다릅니다
+jeolla|전라|county|gangjin-gun|강진군|강진읍, 마량, 성전, 도암|관광 숙소와 외곽 진입로 확인이 중요합니다
+jeolla|전라|county|haenam-gun|해남군|해남읍, 송지, 문내, 황산|남해안 장거리 이동 가능 시간을 먼저 봅니다
+jeolla|전라|county|yeongam-gun|영암군|삼호, 영암읍, 시종, 군서|산업권과 목포 인접 생활권 문의가 있습니다
+jeolla|전라|county|muan-gun|무안군|남악, 무안읍, 삼향, 청계|도청 인근 신도시와 공항 이동을 함께 봅니다
+jeolla|전라|county|hampyeong-gun|함평군|함평읍, 학교, 월야, 나산|광주·목포 사이 이동권과 외곽 숙소 조건을 확인합니다
+jeolla|전라|county|yeonggwang-gun|영광군|영광읍, 홍농, 법성, 백수|해안 숙소와 산업권 이동 조건이 함께 있습니다
+jeolla|전라|county|jangseong-gun|장성군|장성읍, 삼계, 황룡, 북이|광주 인접 생활권과 산간 이동을 봅니다
+jeolla|전라|county|wando-gun|완도군|완도읍, 노화, 군외, 신지|도서·해안 이동은 당일 가능 여부 확인이 우선입니다
+jeolla|전라|county|jindo-gun|진도군|진도읍, 군내, 고군, 의신|섬 지역 이동과 숙소 위치를 먼저 확인합니다
+jeolla|전라|county|sinan-gun|신안군|압해, 지도, 증도, 비금|도서 지역 특성상 실제 배정 가능 여부를 별도로 안내합니다
+"@
+
+$adminAreaRows += @"
+gyeongsang|경상|city|pohang-si|포항시|죽도, 영일대, 효자, 오천|해안 숙소와 산업권 예약이 함께 나타납니다
+gyeongsang|경상|admin-gu|pohang-nam-gu|포항 남구|오천, 효자, 대이, 연일|산업권과 주거지 이동 조건을 확인합니다
+gyeongsang|경상|admin-gu|pohang-buk-gu|포항 북구|영일대, 장성, 양덕, 죽도|해안 숙소와 도심 상권 문의가 많습니다
+gyeongsang|경상|city|gyeongju-si|경주시|황리단길, 보문, 용강, 안강|관광 숙소와 외곽 리조트 이동 조건이 다릅니다
+gyeongsang|경상|city|gimcheon-si|김천시|혁신도시, 평화, 대신, 아포|혁신도시 업무 일정과 주거권 예약이 함께 있습니다
+gyeongsang|경상|city|andong-si|안동시|옥동, 송현, 용상, 풍산|도심 주거권과 관광 숙소 문의가 함께 있습니다
+gyeongsang|경상|city|gumi-si|구미시|인동, 송정, 봉곡, 산동|산업단지 근무 후 예약과 신도시 문의가 많습니다
+gyeongsang|경상|city|yeongju-si|영주시|가흥, 휴천, 영주동, 풍기|도심과 관광지 이동 조건을 함께 확인합니다
+gyeongsang|경상|city|yeongcheon-si|영천시|완산, 문외, 금호, 신녕|대구 인접 이동권과 외곽 생활권이 함께 있습니다
+gyeongsang|경상|city|sangju-si|상주시|남성, 무양, 함창, 낙동|도심 주거권과 외곽 이동 가능 시간을 봅니다
+gyeongsang|경상|city|mungyeong-si|문경시|점촌, 문경읍, 가은, 모전|관광 숙소와 산간 이동 조건이 있습니다
+gyeongsang|경상|city|gyeongsan-si|경산시|하양, 압량, 중방, 사동|대구 인접 생활권과 대학가 예약이 많습니다
+gyeongsang|경상|county|uiseong-gun|의성군|의성읍, 안계, 봉양, 금성|외곽 이동 시간이 길어 사전 확인이 필요합니다
+gyeongsang|경상|county|cheongsong-gun|청송군|청송읍, 진보, 주왕산, 현동|산간 관광지와 숙소 위치 확인이 중요합니다
+gyeongsang|경상|county|yeongyang-gun|영양군|영양읍, 입암, 수비, 청기|산간 장거리 이동 가능 여부를 먼저 봅니다
+gyeongsang|경상|county|yeongdeok-gun|영덕군|영덕읍, 강구, 축산, 영해|해안 숙소와 관광지 이동 조건을 확인합니다
+gyeongsang|경상|county|cheongdo-gun|청도군|청도읍, 화양, 풍각, 이서|대구 인접권과 전원 숙소 문의가 함께 있습니다
+gyeongsang|경상|county|goryeong-gun|고령군|대가야읍, 다산, 성산, 개진|대구 인접 산업권과 외곽 이동을 봅니다
+gyeongsang|경상|county|seongju-gun|성주군|성주읍, 초전, 선남, 월항|농공단지와 외곽 숙소 위치 확인이 필요합니다
+gyeongsang|경상|county|chilgok-gun|칠곡군|왜관, 석적, 북삼, 동명|대구·구미 이동권과 산업지 예약이 함께 있습니다
+gyeongsang|경상|county|yecheon-gun|예천군|호명, 예천읍, 풍양, 용문|도청 신도시와 구도심 문의가 함께 있습니다
+gyeongsang|경상|county|bonghwa-gun|봉화군|봉화읍, 춘양, 물야, 석포|산간 이동과 숙소 진입로 확인이 중요합니다
+gyeongsang|경상|county|uljin-gun|울진군|울진읍, 죽변, 후포, 북면|해안 장거리 이동과 숙소 위치를 먼저 봅니다
+gyeongsang|경상|county|ulleung-gun|울릉군|울릉읍, 서면, 북면, 도동|도서 지역은 실제 출장 가능 여부를 별도로 확인합니다
+gyeongsang|경상|city|changwon-si|창원시|성산, 의창, 마산, 진해|산업단지 근무 일정과 주거권 문의가 함께 나타납니다
+gyeongsang|경상|admin-gu|changwon-uichang-gu|창원 의창구|팔용, 명서, 북면, 봉림|도심 주거권과 산업지 이동이 함께 있습니다
+gyeongsang|경상|admin-gu|changwon-seongsan-gu|창원 성산구|상남, 중앙, 가음, 반송|업무지와 상권 예약이 많아 주차 확인이 필요합니다
+gyeongsang|경상|admin-gu|masanhappo-gu|마산합포구|월영, 산호, 오동, 진동|해안 생활권과 구도심 문의가 함께 있습니다
+gyeongsang|경상|admin-gu|masanhoewon-gu|마산회원구|양덕, 합성, 내서, 회원|터미널과 주거권 예약 흐름이 겹칩니다
+gyeongsang|경상|admin-gu|jinhae-gu|진해구|석동, 자은, 용원, 경화|해군기지 인접 생활권과 해안 숙소 문의가 있습니다
+gyeongsang|경상|city|jinju-si|진주시|평거, 충무공, 가좌, 상대|혁신도시와 대학가 예약이 함께 있습니다
+gyeongsang|경상|city|tongyeong-si|통영시|무전, 죽림, 중앙, 도남|해안 숙소와 관광 일정 문의가 많습니다
+gyeongsang|경상|city|sacheon-si|사천시|사천읍, 삼천포, 벌리, 용현|항공산업권과 해안 숙소 이동을 함께 봅니다
+gyeongsang|경상|city|gimhae-si|김해시|장유, 내외, 삼계, 진영|부산 인접 생활권과 신도시 예약이 많습니다
+gyeongsang|경상|city|miryang-si|밀양시|삼문, 내이, 하남, 가곡|산간과 도심 이동 조건을 함께 확인합니다
+gyeongsang|경상|city|geoje-si|거제시|고현, 옥포, 아주, 장평|조선업 근무 일정과 해안 숙소 문의가 함께 있습니다
+gyeongsang|경상|city|yangsan-si|양산시|물금, 동면, 서창, 덕계|부산·울산 인접 이동권과 주거지 예약이 많습니다
+gyeongsang|경상|county|uiryeong-gun|의령군|의령읍, 부림, 가례, 정곡|외곽 이동과 농촌 숙소 위치 확인이 필요합니다
+gyeongsang|경상|county|haman-gun|함안군|가야, 칠원, 군북, 대산|창원 인접 산업권과 주거지 문의가 함께 있습니다
+gyeongsang|경상|county|changnyeong-gun|창녕군|창녕읍, 남지, 영산, 부곡|온천 숙소와 외곽 이동 조건을 확인합니다
+gyeongsang|경상|county|goseong-gun-gn|고성군|고성읍, 회화, 거류, 하일|해안 숙소와 외곽 생활권 예약이 함께 있습니다
+gyeongsang|경상|county|namhae-gun|남해군|남해읍, 삼동, 창선, 미조|펜션과 해안 장거리 이동 가능 여부를 봅니다
+gyeongsang|경상|county|hadong-gun|하동군|하동읍, 화개, 진교, 악양|관광지와 산간 숙소 진입로 확인이 중요합니다
+gyeongsang|경상|county|sancheong-gun|산청군|산청읍, 신안, 시천, 단성|지리산 인접 숙소와 외곽 이동을 봅니다
+gyeongsang|경상|county|hamyang-gun|함양군|함양읍, 안의, 수동, 마천|산간 이동과 관광 숙소 위치 확인이 필요합니다
+gyeongsang|경상|county|geochang-gun|거창군|거창읍, 가조, 위천, 남상|산간 생활권과 외곽 이동 시간이 변수입니다
+gyeongsang|경상|county|hapcheon-gun|합천군|합천읍, 가야, 삼가, 초계|관광지와 농촌 외곽 이동을 함께 확인합니다
+jeju|제주|admin-city|jeju-si|제주시|노형, 연동, 아라, 함덕|공항과 도심 숙소 문의가 많아 체크인 시간을 함께 봅니다
+jeju|제주|admin-city|seogwipo-si|서귀포시|중문, 서귀동, 대정, 성산|관광 숙소와 동서 이동 시간이 달라 예약 여유가 필요합니다
+"@
+
+$adminAreaRows += @"
+incheon|인천|gu|incheon-jung-gu|인천 중구|영종, 운서, 신포, 개항장|공항 일정과 원도심 숙소 문의가 함께 나타납니다
+incheon|인천|gu|incheon-dong-gu|인천 동구|송림, 화수, 만석, 금창|원도심 주거지와 항만 인접 이동 조건을 확인합니다
+incheon|인천|gu|michuhol-gu|미추홀구|주안, 용현, 도화, 학익|역세권 오피스텔과 주거지 방문이 많습니다
+incheon|인천|gu|yeonsu-gu|연수구|송도, 연수, 동춘, 청학|국제업무지구와 주거 단지가 붙어 있어 건물 출입 기준이 다양합니다
+incheon|인천|gu|namdong-gu|남동구|구월, 논현, 만수, 간석|상권과 산업권 문의가 함께 있어 시간대별 이동을 봅니다
+incheon|인천|gu|bupyeong-gu|부평구|부평역, 삼산, 갈산, 산곡|상권과 주거지가 섞여 늦은 저녁 상담에서 정확한 위치가 중요합니다
+incheon|인천|gu|gyeyang-gu|계양구|계산, 작전, 효성, 귤현|공항철도와 주거권 이동 흐름이 함께 나타납니다
+incheon|인천|gu|seo-gu|서구|청라, 검단, 가정, 석남|신도시와 산업권 이동 조건이 크게 다릅니다
+incheon|인천|county|ganghwa-gun|강화군|강화읍, 선원, 길상, 내가|교량 이동과 펜션 방문 조건을 먼저 확인합니다
+incheon|인천|county|ongjin-gun|옹진군|영흥, 백령, 대청, 덕적|도서 지역 특성상 실제 출장 가능 여부를 별도로 안내합니다
+busan|부산|gu|busan-jung-gu|부산 중구|남포, 중앙, 광복, 부평|관광 숙소와 원도심 상권 문의가 많습니다
+busan|부산|gu|busan-seo-gu|부산 서구|동대신, 서대신, 암남, 충무|대학병원 인근 숙소와 주거지 방문 조건을 확인합니다
+busan|부산|gu|busan-dong-gu|부산 동구|초량, 부산역, 수정, 범일|역세권 숙소와 출장 일정 문의가 중심입니다
+busan|부산|gu|yeongdo-gu|영도구|동삼, 영선, 청학, 봉래|교량 이동과 해안 숙소 방문 조건이 중요합니다
+busan|부산|gu|busanjin-gu|부산진구|서면, 부전, 전포, 가야|도심 상권 중심 예약이 많아 이동과 주차 조건을 먼저 봅니다
+busan|부산|gu|dongnae-gu|동래구|동래, 온천, 사직, 명륜|온천장 숙소와 주거권 문의가 함께 있습니다
+busan|부산|gu|busan-nam-gu|부산 남구|대연, 용호, 문현, 감만|대학가와 해안 주거권 이동을 함께 확인합니다
+busan|부산|gu|busan-buk-gu|부산 북구|화명, 덕천, 구포, 만덕|북부 주거지와 역세권 예약이 많습니다
+busan|부산|gu|haeundae-gu|해운대구|해운대, 센텀, 좌동, 송정|관광 숙소와 업무 미팅 후 예약이 함께 있어 성수기 여유 시간이 필요합니다
+busan|부산|gu|saha-gu|사하구|하단, 다대, 괴정, 장림|산업권과 해안 주거지 이동 조건을 확인합니다
+busan|부산|gu|geumjeong-gu|금정구|부산대, 장전, 구서, 남산|대학가와 주거권 예약이 함께 있습니다
+busan|부산|gu|busan-gangseo-gu|부산 강서구|명지, 녹산, 대저, 가덕|산업단지와 신도시 이동 변수가 큽니다
+busan|부산|gu|yeonje-gu|연제구|연산, 거제, 시청, 교대|행정 업무지와 주거지가 가까워 출입 조건을 봅니다
+busan|부산|gu|suyeong-gu|수영구|광안, 민락, 남천, 수영|해안 숙소와 상권 문의가 많아 주차를 먼저 확인합니다
+busan|부산|gu|sasang-gu|사상구|괘법, 주례, 엄궁, 학장|터미널과 산업권 예약이 함께 나타납니다
+busan|부산|county|gijang-gun|기장군|정관, 기장읍, 일광, 장안|해안 리조트와 외곽 이동 시간이 달라집니다
+"@
+
+$adminAreaRows += @"
+daegu|대구|gu|daegu-jung-gu|대구 중구|동성로, 반월당, 남산, 대신|도심 상권과 숙소 문의가 많아 주차 조건 확인이 필요합니다
+daegu|대구|gu|daegu-dong-gu|대구 동구|동대구역, 신암, 혁신도시, 안심|역세권 출장 일정과 신도시 주거권 문의가 함께 있습니다
+daegu|대구|gu|daegu-seo-gu|대구 서구|평리, 내당, 비산, 원대|구도심 주거권과 산업지 인접 이동을 함께 봅니다
+daegu|대구|gu|daegu-nam-gu|대구 남구|대명, 봉덕, 이천, 앞산|대학가와 주거지 예약이 섞여 조용한 방문을 중시합니다
+daegu|대구|gu|daegu-buk-gu|대구 북구|칠곡, 산격, 복현, 침산|북부 생활권과 산업권 이동 흐름이 다릅니다
+daegu|대구|gu|suseong-gu|수성구|범어, 수성못, 만촌, 지산|주거지와 호텔 문의가 함께 있어 방문 매너를 중시합니다
+daegu|대구|gu|dalseo-gu|달서구|상인, 성서, 월성, 두류|성서산단과 주거권 예약 시간이 겹칩니다
+daegu|대구|county|dalseong-gun|달성군|화원, 다사, 현풍, 유가|테크노폴리스와 외곽 이동 조건을 확인합니다
+daegu|대구|county|gunwi-gun|군위군|군위읍, 효령, 부계, 의흥|농촌 생활권과 장거리 이동 가능 여부를 먼저 봅니다
+gwangju|광주|gu|gwangju-dong-gu|광주 동구|충장로, 학동, 산수, 지산|도심 상권과 숙소 문의가 함께 있습니다
+gwangju|광주|gu|gwangju-seo-gu|광주 서구|상무, 치평, 화정, 금호|상무지구 업무 일정과 주거권 예약이 많습니다
+gwangju|광주|gu|gwangju-nam-gu|광주 남구|봉선, 주월, 진월, 백운|주거지 중심 예약이 많아 조용한 방문을 선호합니다
+gwangju|광주|gu|gwangju-buk-gu|광주 북구|용봉, 일곡, 문흥, 운암|대학가와 대단지 주거권 문의가 함께 있습니다
+gwangju|광주|gu|gwangsan-gu|광산구|수완, 첨단, 송정, 하남|산업권과 신도시 생활권 이동 조건이 다릅니다
+daejeon|대전|gu|daejeon-dong-gu|대전 동구|대전역, 용전, 가오, 판암|역세권 출장 일정과 주거권 예약이 함께 있습니다
+daejeon|대전|gu|daejeon-jung-gu|대전 중구|은행, 대흥, 태평, 문화|원도심 상권과 주거지 방문 조건을 봅니다
+daejeon|대전|gu|daejeon-seo-gu|대전 서구|둔산, 탄방, 관저, 월평|행정 업무지와 대단지 예약이 많습니다
+daejeon|대전|gu|yuseong-gu|유성구|봉명, 도룡, 관평, 노은|연구단지와 온천 숙소 문의가 함께 있습니다
+daejeon|대전|gu|daedeok-gu|대덕구|송촌, 중리, 오정, 신탄진|산업권과 북부 주거지 이동 조건을 확인합니다
+ulsan|울산|gu|ulsan-jung-gu|울산 중구|성남, 태화, 병영, 우정|원도심과 주거권 예약이 함께 나타납니다
+ulsan|울산|gu|ulsan-nam-gu|울산 남구|삼산, 달동, 신정, 무거|도심 상권과 호텔 문의가 많아 주차 조건이 중요합니다
+ulsan|울산|gu|ulsan-dong-gu|울산 동구|전하, 방어, 화정, 일산|조선업 근무 일정과 해안 숙소 문의가 함께 있습니다
+ulsan|울산|gu|ulsan-buk-gu|울산 북구|호계, 매곡, 송정, 화봉|산업단지와 신도시 주거권 이동을 함께 봅니다
+ulsan|울산|county|ulju-gun|울주군|언양, 범서, 온산, 서생|산단과 해안·산간 이동 조건이 달라 사전 확인이 필요합니다
+sejong|세종|admin-city|sejong-si|세종시|나성, 보람, 조치원, 아름|정부청사와 신도심 아파트 예약이 많아 방문자 등록을 확인합니다
+"@
+
+$adminAreaRows += @"
+gangwon|강원|city|chuncheon-si|춘천시|퇴계, 석사, 후평, 강촌|관광 숙소와 주거권 문의가 함께 있습니다
+gangwon|강원|city|wonju-si|원주시|무실, 단계, 혁신도시, 단구|혁신도시 업무 일정과 주거지 예약이 섞입니다
+gangwon|강원|city|gangneung-si|강릉시|교동, 경포, 주문진, 포남|해안 숙소와 도심 생활권 이동 조건이 다릅니다
+gangwon|강원|city|donghae-si|동해시|천곡, 묵호, 북평, 망상|항만과 해안 숙소 문의가 함께 있습니다
+gangwon|강원|city|taebaek-si|태백시|황지, 장성, 철암, 문곡|산간 이동과 기상 영향을 상담에서 확인합니다
+gangwon|강원|city|sokcho-si|속초시|조양, 교동, 청초, 대포|관광 숙소와 해안 이동 조건이 중요합니다
+gangwon|강원|city|samcheok-si|삼척시|교동, 남양, 도계, 근덕|해안과 산간 생활권 이동 차이가 큽니다
+gangwon|강원|county|hongcheon-gun|홍천군|홍천읍, 서석, 내면, 남면|펜션과 외곽 숙소 위치 확인이 중요합니다
+gangwon|강원|county|hoengseong-gun|횡성군|횡성읍, 둔내, 우천, 안흥|리조트와 전원 숙소 문의가 있습니다
+gangwon|강원|county|yeongwol-gun|영월군|영월읍, 주천, 상동, 김삿갓|산간 이동과 숙소 진입로 확인이 필요합니다
+gangwon|강원|county|pyeongchang-gun|평창군|대관령, 봉평, 진부, 용평|리조트 일정과 겨울철 이동 변수를 봅니다
+gangwon|강원|county|jeongseon-gun|정선군|정선읍, 고한, 사북, 임계|산간 숙소와 관광 일정 후 문의가 있습니다
+gangwon|강원|county|cheorwon-gun|철원군|갈말, 동송, 김화, 서면|북부 장거리 이동 가능 시간을 먼저 확인합니다
+gangwon|강원|county|hwacheon-gun|화천군|화천읍, 사내, 간동, 하남|산간 생활권과 숙박시설 위치 확인이 중요합니다
+gangwon|강원|county|yanggu-gun|양구군|양구읍, 국토정중앙, 동면, 해안|군부대 인접 생활권과 외곽 이동을 함께 봅니다
+gangwon|강원|county|inje-gun|인제군|인제읍, 원통, 기린, 북면|산악 도로와 숙소 진입 조건을 확인합니다
+gangwon|강원|county|goseong-gun-gw|고성군|간성, 거진, 토성, 죽왕|해안 리조트와 북부 이동 시간이 변수입니다
+gangwon|강원|county|yangyang-gun|양양군|양양읍, 낙산, 현남, 강현|서핑 숙소와 관광지 이동 조건을 먼저 봅니다
+"@
+
+$adminAreaRows += @"
+chungcheong|충청|city|cheongju-si|청주시|오송, 복대, 율량, 상당|오송 출장과 도심 주거권 예약이 섞여 일정 확인이 중요합니다
+chungcheong|충청|admin-gu|cheongju-sangdang-gu|청주 상당구|성안, 용암, 금천, 문의|원도심과 주거권 방문 조건이 함께 나타납니다
+chungcheong|충청|admin-gu|cheongju-seowon-gu|청주 서원구|사창, 산남, 분평, 수곡|대학가와 주거지 예약이 섞여 공간 조건을 봅니다
+chungcheong|충청|admin-gu|cheongju-heungdeok-gu|청주 흥덕구|복대, 가경, 오송, 강서|오송 업무지와 터미널 인근 숙소 문의가 있습니다
+chungcheong|충청|admin-gu|cheongju-cheongwon-gu|청주 청원구|율량, 오창, 내덕, 우암|산업권과 북부 주거권 이동 조건이 다릅니다
+chungcheong|충청|city|chungju-si|충주시|연수, 칠금, 호암, 수안보|도심과 온천 숙소 예약이 함께 있습니다
+chungcheong|충청|city|jecheon-si|제천시|청전, 하소, 장락, 의림지|관광 숙소와 주거권 이동 조건을 함께 확인합니다
+chungcheong|충청|county|boeun-gun|보은군|보은읍, 속리산, 삼승, 회인|관광지와 외곽 이동 가능 시간을 먼저 봅니다
+chungcheong|충청|county|okcheon-gun|옥천군|옥천읍, 이원, 청산, 군북|대전 인접 생활권과 외곽 이동을 확인합니다
+chungcheong|충청|county|yeongdong-gun|영동군|영동읍, 황간, 추풍령, 용산|산간 이동과 장거리 배정 여부를 확인합니다
+chungcheong|충청|county|jeungpyeong-gun|증평군|증평읍, 도안, 송산, 초중|청주 인접 생활권 예약이 많습니다
+chungcheong|충청|county|jincheon-gun|진천군|진천읍, 덕산, 혁신도시, 광혜원|혁신도시와 산업권 문의가 함께 있습니다
+chungcheong|충청|county|goesan-gun|괴산군|괴산읍, 청천, 칠성, 연풍|펜션과 외곽 숙소 위치 확인이 중요합니다
+chungcheong|충청|county|eumseong-gun|음성군|음성읍, 금왕, 대소, 맹동|산업단지와 혁신도시 예약이 함께 나타납니다
+chungcheong|충청|county|danyang-gun|단양군|단양읍, 매포, 대강, 영춘|관광 숙소와 산간 이동 시간이 변수입니다
+chungcheong|충청|city|cheonan-si|천안시|불당, 두정, 성정, 신부|역세권과 산업권 문의가 함께 있어 시간대 확인이 중요합니다
+chungcheong|충청|admin-gu|cheonan-dongnam-gu|천안 동남구|신부, 청수, 목천, 병천|대학가와 주거권 예약이 함께 있습니다
+chungcheong|충청|admin-gu|cheonan-seobuk-gu|천안 서북구|불당, 두정, 성정, 백석|상권과 산업권 이동 변수가 큽니다
+chungcheong|충청|city|gongju-si|공주시|신관, 중동, 옥룡, 반포|대학가와 관광 숙소 문의가 함께 있습니다
+chungcheong|충청|city|boryeong-si|보령시|대천, 명천, 웅천, 무창포|해안 관광지와 도심 예약 조건이 다릅니다
+chungcheong|충청|city|asan-si|아산시|배방, 탕정, 온양, 둔포|산업단지와 온천 숙소 문의가 함께 있습니다
+chungcheong|충청|city|seosan-si|서산시|동문, 예천, 대산, 해미|산업권과 서해안 숙소 이동을 함께 봅니다
+chungcheong|충청|city|nonsan-si|논산시|취암, 강경, 연무, 내동|군부대 인접 일정과 주거권 문의가 있습니다
+chungcheong|충청|city|gyeryong-si|계룡시|금암, 엄사, 두마, 신도안|대전 인접 생활권과 보안 출입 기준을 확인합니다
+chungcheong|충청|city|dangjin-si|당진시|당진읍, 송악, 신평, 합덕|산업단지와 항만 이동 시간이 변수입니다
+chungcheong|충청|county|geumsan-gun|금산군|금산읍, 추부, 진산, 복수|대전 인접권과 외곽 이동 가능 여부를 봅니다
+chungcheong|충청|county|buyeo-gun|부여군|부여읍, 규암, 은산, 홍산|관광 숙소와 도심 생활권 예약이 함께 있습니다
+chungcheong|충청|county|seocheon-gun|서천군|서천읍, 장항, 마서, 한산|해안 이동과 숙소 위치 확인이 중요합니다
+chungcheong|충청|county|cheongyang-gun|청양군|청양읍, 정산, 장평, 화성|외곽 이동 시간이 길어 사전 상담이 필요합니다
+chungcheong|충청|county|hongseong-gun|홍성군|홍성읍, 내포, 광천, 홍북|내포신도시와 구도심 문의가 함께 있습니다
+chungcheong|충청|county|yesan-gun|예산군|예산읍, 삽교, 덕산, 고덕|온천 숙소와 내포 생활권 이동을 확인합니다
+chungcheong|충청|county|taean-gun|태안군|태안읍, 안면, 소원, 근흥|펜션과 해안 숙소 방문 조건을 먼저 봅니다
+"@
+
+$adminAreas = foreach ($line in ($adminAreaRows -split "`n")) {
+  $trimmed = $line.Trim()
+  if (!$trimmed) { continue }
+  $parts = $trimmed -split "\|", 7
+  [pscustomobject]@{
+    regionSlug = $parts[0]
+    parent = $parts[1]
+    type = $parts[2]
+    slug = $parts[3]
+    name = $parts[4]
+    zones = $parts[5]
+    scene = $parts[6]
+  }
+}
 
 function Section($title, $body) {
   return "<section class=`"content-section`"><h2>$title</h2><p>$body</p></section>"
@@ -254,6 +516,11 @@ function Build-Service($svc) {
 
 function Build-Region($r) {
   $serviceLinks = ($services | Select-Object -First 5 | ForEach-Object { "<a class=`"pill`" href=`"/services/$($_.slug)/`">$($_.name)</a>" }) -join ""
+  if ($r.slug -eq "seoul") {
+    $childLinks = ($districts | ForEach-Object { "<a class=`"pill`" href=`"/areas/seoul/$($_.slug)/`">$($_.name)</a>" }) -join ""
+  } else {
+    $childLinks = ($adminAreas | Where-Object { $_.regionSlug -eq $r.slug } | ForEach-Object { "<a class=`"pill`" href=`"/areas/$($r.slug)/$($_.slug)/`">$($_.name)</a>" }) -join ""
+  }
   $body = Hero "지역별 출장 가능 안내" "$($r.name) 출장마사지 예약 안내" "$($r.focus)입니다. $($r.movement)"
   $body += Section "$($r.name) 이용 흐름" "$($r.name) 지역은 $($r.focus) 예약 전에는 세부 주소, 공간 유형, 시작 희망 시간, 출입 방식이 가장 중요합니다. 같은 지역명 안에서도 업무지구, 주거 단지, 관광 숙소, 산업단지의 이동 조건이 달라 도착 시간과 배정 가능 인력이 달라질 수 있습니다. 88마사지는 단순히 가능하다는 말보다 어떤 조건에서 안정적으로 방문할 수 있는지 먼저 확인합니다. 고객이 읽고 바로 판단할 수 있도록 지역별 이동 변수와 준비 사항을 구분해 안내합니다."
   $body += Section "생활권별 특징" "$($r.movement) 호텔과 숙소는 프런트 기준이 다르고, 아파트와 오피스텔은 공동현관이나 주차 등록 방식이 다릅니다. 이런 정보가 빠지면 예약 시간이 확정되어도 현장에서 대기 시간이 생길 수 있습니다. $($r.name)에서는 이용 장소의 이름보다 실제 진입 동선이 더 중요할 때가 많습니다. 건물명, 동·호수 전달 방식, 관리사가 연락할 수 있는 번호를 정확히 남겨 주세요."
@@ -264,6 +531,9 @@ function Build-Region($r) {
   $body += Section "$($r.name) 예약 예시" "$($r.name)에서 상담할 때는 단순히 시·도명만 남기는 것보다 실제 머무는 권역과 건물 유형을 알려 주는 편이 좋습니다. 예를 들어 업무지구의 고층 건물, 주거 단지의 지하 주차장, 관광 숙소의 프런트 통과 여부는 모두 배정 시간에 영향을 줍니다. $($r.cost) 또한 예약자가 미리 알고 있어야 하는 부분입니다. 희망 시간이 촉박한 경우에는 가능한 관리 시간과 코스를 줄여 안내할 수 있고, 여유가 있다면 이동이 안정적인 시간대로 조정할 수 있습니다. 이런 확인 과정은 번거롭게 보일 수 있지만 현장 대기와 취소를 줄이는 가장 현실적인 방법입니다."
   $body += Section "$($r.name) 현장 확인 기준" "방문 당일에는 관리사가 도착하기 전 연락 가능한 상태를 유지해 주세요. 지하 주차장 진입이 어렵거나 숙소 출입 정책이 바뀐 경우에는 즉시 알려 주는 것이 좋습니다. $($r.name) 지역은 생활권별로 이동 흐름이 달라 한 번의 지연이 다음 예약에도 영향을 줄 수 있습니다. 88마사지는 고객에게 무리한 준비를 요구하지 않지만, 정확한 위치와 출입 정보는 서비스 품질을 좌우하는 기본 정보로 봅니다."
   $body += Section "$($r.name) 예약자 체크리스트" "문의 전에는 희망 시작 시간, 상세 주소, 건물 유형, 주차 가능 여부, 원하는 관리 시간을 한 번에 정리해 두면 좋습니다. $($r.name)에서는 $($r.focus) 이 특성이 있어 상담 중 작은 정보 차이가 배정 결과를 바꿀 수 있습니다. 88마사지는 확인된 정보만 기준으로 안내합니다."
+  if ($childLinks) {
+    $body += "<section class=`"content-section related`"><h2>$($r.name) 하위 행정지역 안내</h2><div>$childLinks</div></section>"
+  }
   $body += "<section class=`"content-section related`"><h2>$($r.name)에서 선택 가능한 관리</h2><div>$serviceLinks</div></section>"
   $body += FaqBlock @(
     @{q="$($r.name) 전 지역 방문이 가능한가요?"; a="가능 지역은 시간대와 배정 상황에 따라 달라집니다. 세부 주소를 알려 주시면 당일 기준으로 확인합니다."},
@@ -308,7 +578,7 @@ function Build-AdminArea($a) {
     @{q="당일 예약도 가능한가요?"; a="가능한 경우가 있지만 배정 상황에 따라 달라집니다. 희망 시간보다 여유 있게 문의하는 편이 좋습니다."},
     @{q="출장비는 왜 지역 안에서도 다른가요?"; a="거리, 주차, 도로 상황, 심야 여부가 달라 실제 이동 시간이 달라지기 때문입니다."}
   )
-  return Layout "$($a.name) 출장마사지 | $brand $($a.parent) 지역 안내" "$($a.name) 출장마사지 예약 전 $($a.zones) 권역의 이동 조건, 요금 기준, 준비 사항을 안내합니다." "/areas/$($a.slug)/" $body "Service" "$($a.parent) $($a.name)"
+  return Layout "$($a.name) 출장마사지 예약 안내 | $($a.parent) $brand" "$($a.name) 출장마사지 예약 전 $($a.zones) 권역의 이동 조건, 출장비 기준, 준비 사항을 개별 안내합니다." "/areas/$($a.regionSlug)/$($a.slug)/" $body "Service" "$($a.parent) $($a.name)"
 }
 
 $pages = @()
@@ -327,8 +597,8 @@ foreach ($d in $districts) {
   $pages += @{path=$path; url="/areas/seoul/$($d.slug)/"; html=(Build-District $d); title="$($d.name) 출장마사지"; desc="$($d.name) 지역 안내"}
 }
 foreach ($a in $adminAreas) {
-  $path = "areas/$($a.slug)/index.html"
-  $pages += @{path=$path; url="/areas/$($a.slug)/"; html=(Build-AdminArea $a); title="$($a.name) 출장마사지"; desc="$($a.name) 지역 안내"}
+  $path = "areas/$($a.regionSlug)/$($a.slug)/index.html"
+  $pages += @{path=$path; url="/areas/$($a.regionSlug)/$($a.slug)/"; html=(Build-AdminArea $a); title="$($a.name) 출장마사지"; desc="$($a.name) 지역 안내"}
 }
 
 foreach ($page in $pages) {
