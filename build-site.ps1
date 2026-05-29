@@ -8,6 +8,7 @@ $owner = "김유환"
 $businessNumber = "815-26-00585"
 $businessAddress = "경기도 파주시 청석로 268"
 $today = (Get-Date).ToString("yyyy-MM-dd")
+$buildUtc = [DateTime]::UtcNow
 
 function HtmlEscape($value) {
   return [System.Net.WebUtility]::HtmlEncode([string]$value)
@@ -831,16 +832,16 @@ foreach ($page in $pages) {
 }
 
 $sitemapItems = ($pages | ForEach-Object {
-  "  <url><loc>$(XmlEscape "$siteUrl$($_.url)")</loc><lastmod>$today</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url>"
+  "  <url><loc>$(XmlEscape "$siteUrl$($_.url)")</loc><lastmod>$today</lastmod></url>"
 }) -join "`n"
 $sitemap = "<?xml version=`"1.0`" encoding=`"UTF-8`"?>`n<urlset xmlns=`"http://www.sitemaps.org/schemas/sitemap/0.9`">`n$sitemapItems`n</urlset>`n"
 Write-Utf8 "sitemap.xml" $sitemap
 Write-Utf8 "sitemap1.xml" $sitemap
 
 $rssItems = ($pages | Select-Object -First 30 | ForEach-Object {
-  "    <item><title>$(XmlEscape $_.title)</title><link>$(XmlEscape "$siteUrl$($_.url)")</link><guid>$(XmlEscape "$siteUrl$($_.url)")</guid><description>$(XmlEscape $_.desc)</description><pubDate>$([DateTime]::Now.ToUniversalTime().ToString("r"))</pubDate></item>"
+  "    <item><title>$(XmlEscape $_.title)</title><link>$(XmlEscape "$siteUrl$($_.url)")</link><guid isPermaLink=`"true`">$(XmlEscape "$siteUrl$($_.url)")</guid><description>$(XmlEscape $_.desc)</description><pubDate>$($buildUtc.ToString("r"))</pubDate></item>"
 }) -join "`n"
-$rss = "<?xml version=`"1.0`" encoding=`"UTF-8`"?>`n<rss version=`"2.0`"><channel><title>$(XmlEscape $brand)</title><link>$siteUrl</link><description>출장마사지 서비스와 지역 안내 업데이트</description>`n$rssItems`n</channel></rss>`n"
+$rss = "<?xml version=`"1.0`" encoding=`"UTF-8`"?>`n<rss version=`"2.0`" xmlns:atom=`"http://www.w3.org/2005/Atom`"><channel><title>$(XmlEscape $brand) 최신 안내</title><link>$siteUrl/</link><atom:link href=`"$siteUrl/rss.xml`" rel=`"self`" type=`"application/rss+xml`" /><description>88마사지 서비스, 지역 안내, 예약 기준 업데이트 피드입니다.</description><language>ko-KR</language><lastBuildDate>$($buildUtc.ToString("r"))</lastBuildDate><ttl>60</ttl>`n$rssItems`n</channel></rss>`n"
 Write-Utf8 "rss.xml" $rss
 
 $robots = @"
@@ -860,8 +861,6 @@ User-agent: Daumoa
 Allow: /
 
 Sitemap: $siteUrl/sitemap.xml
-Sitemap: $siteUrl/sitemap1.xml
-Sitemap: $siteUrl/rss.xml
 "@
 Write-Utf8 "robots.txt" $robots
 
