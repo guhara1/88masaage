@@ -27,22 +27,22 @@ function Write-Utf8($path, $content) {
 
 $services = @(
   @{
-    slug="swedish"; name="스웨디시"; tone="부드러운 리듬과 낮은 압으로 긴장을 풀어 주는 휴식형 관리"; user="업무 후 예민해진 몸을 천천히 가라앉히고 싶은 분"; feature="속도를 서두르지 않고 호흡, 온도, 조명, 압 조절을 함께 맞추는 방식"
+    slug="swedish-massage"; name="스웨디시"; tone="부드러운 압과 긴 호흡으로 전신 긴장을 낮추는 릴랙스 관리"; user="강한 압보다 편안한 흐름과 안정감을 선호하는 고객"; feature="부드러운 터치와 일정한 리듬으로 전신을 차분하게 정리하는 방식"; need="장시간 앉아 일한 뒤 몸이 예민하거나 수면 전 편안한 휴식이 필요한 경우"; traits="피부 자극이 적은 오일, 낮은 압, 느린 템포, 조용한 분위기"; time60="가볍게 전신 흐름을 정리하고 싶은 고객"; time90="전신 릴랙스를 충분히 느끼고 싶은 고객"; time120="여유 있게 깊은 휴식을 원하는 고객"; compare="스포츠마사지는 활동 후 피로 부위에 집중하고, 타이마사지는 스트레칭 비중이 높지만 스웨디시는 부드러운 전신 릴랙스에 초점을 둡니다."
   },
   @{
-    slug="aroma"; name="아로마테라피"; tone="향과 터치의 균형을 맞춘 편안한 컨디션 케어"; user="수면 리듬이 흐트러졌거나 낯선 출장 일정 뒤 휴식이 필요한 분"; feature="향 선택 전 알레르기와 선호도를 확인하고 잔향이 부담스럽지 않게 조절"
+    slug="aroma-therapy"; name="아로마테라피"; tone="피부 자극이 적은 오일을 사용해 향과 터치로 안정감을 더하는 관리"; user="낯선 숙소나 출장 일정 뒤 향을 곁들인 휴식을 원하는 고객"; feature="오일 선호도와 향 민감도를 먼저 확인하고 잔향이 부담스럽지 않게 조절하는 방식"; need="긴 이동 뒤 긴장이 남아 있거나 조용한 분위기에서 몸을 가볍게 정리하고 싶은 경우"; traits="향 선택, 오일 사용량, 실내 환기, 타월 정리를 세심하게 맞추는 점이 특징"; time60="향과 터치감을 짧게 경험하고 싶은 고객"; time90="전신을 여유 있게 관리받고 싶은 고객"; time120="숙소에서 충분한 휴식 시간을 확보한 고객"; compare="스웨디시가 터치 흐름을 중시한다면 아로마테라피는 향, 오일감, 실내 분위기까지 함께 맞추는 관리입니다."
   },
   @{
-    slug="lymph"; name="림프마사지"; tone="가벼운 압으로 순환감을 돕는 데 초점을 둔 데일리 관리"; user="오래 앉아 있거나 서 있는 시간이 많아 몸이 무겁게 느껴지는 분"; feature="강한 자극보다 방향성과 반복 리듬을 중시하며 편안한 범위에서 진행"
+    slug="deep-tissue"; name="딥티슈"; tone="등, 어깨, 하체처럼 뭉침이 잦은 부위를 천천히 풀어 주는 집중 관리"; user="특정 부위가 무겁고 단단하게 느껴져 세밀한 압 조절을 원하는 고객"; feature="넓게 문지르기보다 뭉침이 잦은 부위를 천천히 확인하고 압을 단계적으로 맞추는 방식"; need="어깨와 등, 허벅지처럼 반복적으로 피로가 쌓이는 부위를 중심으로 관리받고 싶은 경우"; traits="처음부터 강하게 누르지 않고 반응을 보며 압을 조절하는 집중형 관리"; time60="한두 부위를 중심으로 정리하고 싶은 고객"; time90="상체 또는 하체 흐름까지 함께 보고 싶은 고객"; time120="여러 부위를 나누어 천천히 관리받고 싶은 고객"; compare="딥티슈는 스웨디시보다 집중 부위와 압 조절이 뚜렷하고, 스포츠마사지보다 휴식 흐름을 더 부드럽게 가져갑니다."
   },
   @{
-    slug="sports"; name="스포츠마사지"; tone="운동 전후의 뻐근함과 활동 후 피로를 고려한 관리"; user="운동, 등산, 골프, 장거리 운전 뒤 회복 시간을 확보하려는 분"; feature="부위별 긴장도를 묻고 스트레칭 범위를 무리하지 않게 정하는 방식"
+    slug="thai-massage"; name="타이마사지"; tone="스트레칭과 지압을 조합해 굳은 움직임을 부드럽게 만드는 관리"; user="몸이 뻣뻣하고 가벼운 스트레칭이 필요한 고객"; feature="매트 공간을 확보한 뒤 관절 범위를 무리하지 않게 확인하며 지압과 스트레칭을 조합하는 방식"; need="오래 앉아 있어 움직임이 답답하거나 전신을 시원하게 늘리고 싶은 경우"; traits="오일 사용보다 복장과 공간 확보가 중요하며 호흡에 맞춘 스트레칭을 진행"; time60="가볍게 주요 부위를 늘리고 싶은 고객"; time90="전신 스트레칭과 지압을 균형 있게 원하는 고객"; time120="천천히 움직임을 확인하며 여유 있게 받고 싶은 고객"; compare="타이마사지는 오일 중심 관리와 달리 스트레칭 비중이 높고, 딥티슈처럼 한 부위만 깊게 누르기보다 전신 움직임을 봅니다."
   },
   @{
-    slug="office"; name="오피스케어"; tone="목, 어깨, 허리처럼 업무 자세에 영향을 받는 부위를 중심으로 한 관리"; user="회의와 모니터 작업이 길어 짧은 시간에도 정리된 휴식이 필요한 분"; feature="공간이 좁은 오피스텔, 사무실 휴게실에서도 동선과 소음을 먼저 점검"
+    slug="sports-massage"; name="스포츠마사지"; tone="활동량이 많은 고객의 근육 피로와 회복 리듬을 돕는 관리"; user="운동, 등산, 골프, 장거리 운전 뒤 회복 시간을 확보하려는 고객"; feature="활동 부위와 피로가 큰 부위를 먼저 묻고 스트레칭 범위를 무리하지 않게 정하는 방식"; need="운동 후 뻐근함이 남거나 다음 일정 전 몸을 가볍게 정리하고 싶은 경우"; traits="압 조절, 부위별 집중, 간단한 스트레칭, 관리 후 무리한 활동 자제 안내를 포함"; time60="운동 후 특정 부위 위주로 정리하고 싶은 고객"; time90="상하체를 균형 있게 관리받고 싶은 고객"; time120="활동량이 많았던 날 전신 회복 시간을 길게 잡고 싶은 고객"; compare="스포츠마사지는 릴랙스보다 활동 후 피로 부위 정리에 가깝고, 타이마사지보다 압과 부위별 관리 비중이 높습니다."
   },
   @{
-    slug="family"; name="패밀리웰니스"; tone="부부, 가족, 동행 고객이 각자 컨디션에 맞춰 받는 예약형 관리"; user="여행 숙소나 자택에서 함께 시간을 맞추고 싶은 고객"; feature="동시 관리 가능 여부, 순차 진행 시간, 보호자 동석 기준을 사전에 안내"
+    slug="lymph-massage"; name="림프마사지"; tone="가벼운 압과 일정한 방향의 터치로 붓기와 무거움을 덜어 주는 관리"; user="오래 앉아 있거나 서 있는 시간이 많아 몸이 무겁게 느껴지는 고객"; feature="강한 자극보다 방향성과 반복 리듬을 중시하며 편안한 범위에서 진행하는 방식"; need="다리나 팔이 무겁게 느껴지고 강한 압은 부담스러운 경우"; traits="가벼운 압, 일정한 방향, 느린 반복, 편안한 호흡을 중심으로 구성"; time60="하체나 팔처럼 한 영역을 가볍게 정리하고 싶은 고객"; time90="전신의 무거움을 여유 있게 낮추고 싶은 고객"; time120="부드러운 압으로 충분한 휴식을 원하는 고객"; compare="림프마사지는 딥티슈처럼 깊게 누르기보다 가벼운 압과 방향성을 중시하고, 스포츠마사지보다 안정적인 템포로 진행합니다."
   }
 )
 
@@ -120,6 +120,7 @@ function Layout($title, $description, $path, $body, $schemaType, $areaServed) {
   $canonical = "$siteUrl$path"
   $escapedTitle = HtmlEscape $title
   $escapedDescription = HtmlEscape $description
+  $serviceNav = ($services | ForEach-Object { "<a href=`"/services/$($_.slug)/`">$($_.name)</a>" }) -join ""
   $schema = @{
     "@context"="https://schema.org"
     "@type"=$schemaType
@@ -153,7 +154,7 @@ function Layout($title, $description, $path, $body, $schemaType, $areaServed) {
     <a class="logo" href="/"><span>88</span>마사지</a>
     <button class="menu-button" type="button" aria-label="메뉴 열기">☰</button>
     <nav class="main-nav">
-      <a href="/#services">서비스</a>
+      <div class="nav-group"><a href="/services/">서비스 안내</a><div class="submenu">$serviceNav</div></div>
       <a href="/#areas">지역</a>
       <a href="/#how">이용 방법</a>
       <a href="/#price">요금</a>
@@ -210,24 +211,45 @@ function Build-Main {
   return Layout "$brand | 전국 출장마사지 예약 안내" "전국 출장마사지 예약 전 확인해야 할 서비스, 지역, 이용 방법, 요금, 신뢰 기준을 안내하는 88마사지 공식 사이트입니다." "/" $body "Organization" "대한민국"
 }
 
+function Build-ServicesIndex {
+  $serviceLinks = ($services | ForEach-Object { "<a class=`"link-card`" href=`"/services/$($_.slug)/`"><strong>$($_.name)</strong><span>$($_.tone)</span></a>" }) -join ""
+  $body = Hero "서비스 안내" "전국 출장마사지 서비스 안내" "스웨디시, 아로마테라피, 딥티슈, 타이마사지, 스포츠마사지, 림프마사지까지 고객의 컨디션과 목적에 맞춘 출장마사지 서비스를 안내합니다."
+  $body += Section "서비스 선택 기준" "출장마사지 서비스를 고를 때는 이름보다 현재 컨디션, 원하는 압의 강도, 오일 사용 여부, 공간 조건을 먼저 확인하는 것이 좋습니다. 88마사지는 각 서비스를 같은 표현으로 반복하지 않고 관리 목적과 진행 방식, 이용 전 확인 사항을 나누어 설명합니다. 스웨디시는 부드러운 전신 릴랙스, 아로마테라피는 향과 오일감, 딥티슈는 뭉침이 잦은 부위, 타이마사지는 스트레칭, 스포츠마사지는 활동 후 피로, 림프마사지는 가벼운 압과 방향성을 중심으로 안내합니다."
+  $body += "<section class=`"grid-section`"><h2>서비스 안내</h2><div class=`"card-grid`">$serviceLinks</div></section>"
+  $body += Section "추천 대상별 안내" "강한 압이 부담스럽다면 스웨디시나 림프마사지를 먼저 고려할 수 있습니다. 향을 곁들인 차분한 휴식이 필요하다면 아로마테라피가 어울리고, 등이나 어깨처럼 특정 부위가 단단하게 느껴진다면 딥티슈가 적합할 수 있습니다. 몸이 뻣뻣해 움직임을 늘리고 싶다면 타이마사지, 운동이나 장거리 이동 뒤라면 스포츠마사지를 상담할 수 있습니다. 단, 치료나 질환 개선을 목적으로 선택해서는 안 되며 건강 문제가 의심되면 의료 전문가 상담이 우선입니다."
+  $body += Section "서비스별 소요 시간" "대부분의 관리는 60분, 90분, 120분 단위로 상담합니다. 60분은 특정 부위나 가벼운 전신 정리에 적합하고, 90분은 전신 흐름과 집중 부위를 함께 보기 좋습니다. 120분은 이동이 많았던 날이나 숙소에서 여유롭게 쉬고 싶은 고객에게 어울립니다. 실제 추천 시간은 서비스 종류와 고객 컨디션, 방문 공간, 예약 가능 시간에 따라 달라지므로 상담 단계에서 다시 확인합니다."
+  $body += Section "이용 전 공통 확인사항" "예약 전에는 지역, 희망 시간, 관리받을 공간, 주차 또는 공동현관 기준, 원하는 서비스와 관리 시간을 알려 주세요. 오일을 사용하는 관리는 향 민감도와 피부 자극 여부를 확인하고, 스트레칭이 포함되는 관리는 공간과 복장을 함께 봅니다. 음주 직후, 발열, 외상, 급성 통증이 있는 경우에는 이용을 미루는 편이 안전합니다. 88마사지는 건전한 휴식 관리 범위 안에서만 예약을 안내합니다."
+  $body += Section "서비스 비교 방법" "서비스를 비교할 때는 압의 강도, 오일 사용 여부, 스트레칭 포함 여부, 집중 부위, 관리 후 일정까지 함께 보는 것이 좋습니다. 스웨디시와 아로마테라피는 조용한 휴식에 가깝고, 딥티슈와 스포츠마사지는 특정 부위와 활동 후 피로를 더 세밀하게 봅니다. 타이마사지는 매트 공간과 움직임 범위가 중요하고, 림프마사지는 가벼운 압을 선호하는 고객에게 맞습니다. 이렇게 기준을 나누면 키워드만 보고 고르는 것보다 실제 만족도가 높아집니다."
+  $body += Section "예약 상담에서 묻는 내용" "상담에서는 어떤 서비스를 원하는지보다 왜 그 서비스를 생각했는지를 먼저 확인합니다. 예를 들어 어깨가 무거운지, 전신이 예민한지, 향을 원하는지, 스트레칭이 부담스럽지 않은지에 따라 추천이 달라집니다. 또한 호텔, 자택, 오피스텔, 숙소처럼 공간 유형에 따라 준비물이 달라질 수 있습니다. 88마사지는 확인되지 않은 효과를 약속하지 않고, 고객이 안전하게 받을 수 있는 범위와 예약 가능 조건을 기준으로 안내합니다. 예약자가 처음 이용하는 경우에는 가장 부담이 적은 시간과 압부터 선택하도록 설명합니다."
+  $body += Section "작성·검수 기준" "이 서비스 안내 페이지는 검색 키워드 나열보다 실제 예약자가 비교해야 할 차이를 설명하기 위해 작성했습니다. 각 상세 페이지는 설명, 추천 대상, 소요 시간, 이용 전 안내, FAQ를 다르게 구성합니다. 같은 문장을 서비스명만 바꿔 반복하지 않고 고객센터 운영팀이 상담에서 확인한 질문을 기준으로 검수합니다. 구조화 데이터와 메타 설명은 페이지에 실제로 표시된 정보와 일치하도록 관리합니다."
+  $body += FaqBlock @(
+    @{q="처음 이용하면 어떤 서비스를 고르면 좋나요?"; a="강한 압이 부담스럽다면 스웨디시나 아로마테라피처럼 편안한 흐름의 관리부터 상담하는 편이 좋습니다."},
+    @{q="서비스를 현장에서 바꿀 수 있나요?"; a="가능한 범위가 있지만 관리사 준비물과 시간 배정이 달라질 수 있어 예약 전 선택을 권합니다."},
+    @{q="모든 서비스가 치료 목적인가요?"; a="아닙니다. 88마사지는 휴식과 컨디션 관리를 안내하며 치료, 진단, 효과 보장을 하지 않습니다."}
+  )
+  return Layout "전국 출장마사지 서비스 안내 | 스웨디시·아로마·딥티슈·타이마사지" "스웨디시, 아로마테라피, 딥티슈, 타이마사지, 스포츠마사지, 림프마사지 등 전국 출장마사지 서비스 종류와 특징을 확인해 보세요." "/services/" $body "Service" "대한민국"
+}
+
 function Build-Service($svc) {
   $other = ($services | Where-Object { $_.slug -ne $svc.slug } | Select-Object -First 4 | ForEach-Object { "<a class=`"pill`" href=`"/services/$($_.slug)/`">$($_.name)</a>" }) -join ""
-  $body = Hero "서비스 상세 안내" "$($svc.name) 출장마사지 서비스 안내" "$($svc.tone)입니다. $($svc.user)에게 적합하며, 예약 전 컨디션과 방문 환경을 확인한 뒤 무리 없는 범위에서 진행합니다."
-  $body += Section "$($svc.name) 관리 개요" "$($svc.name)은 $($svc.feature)을 핵심으로 합니다. 관리는 치료나 의학적 처치가 아니라 긴 하루 뒤 몸과 마음을 차분하게 정리하는 휴식 서비스입니다. 상담 단계에서 최근 피로가 쌓인 부위, 피하고 싶은 압, 향 사용 가능 여부, 관리 받을 공간의 밝기와 온도를 확인합니다. 특히 출장 관리는 낯선 공간에서 진행되기 때문에 설명이 짧으면 오해가 생길 수 있습니다. 88마사지는 시작 전 관리 흐름을 다시 안내하고 불편한 느낌이 있으면 즉시 조절하도록 운영합니다."
-  $body += Section "필요한 경우" "$($svc.user)은 $($svc.name)을 고려할 수 있습니다. 오래 앉아서 일한 날, 장거리 이동 뒤 몸이 무겁게 느껴지는 날, 숙소에서 조용히 휴식 시간을 만들고 싶은 날에 어울립니다. 다만 열감, 급성 통증, 외상, 의학적 판단이 필요한 상태라면 마사지를 먼저 선택하지 말고 전문 의료기관의 조언을 받는 것이 우선입니다. 사이트의 안내는 예약 결정을 돕기 위한 정보이며 건강 문제의 해결책으로 제시하지 않습니다."
-  $body += Section "진행 방식" "예약이 확정되면 관리사는 준비물과 위생 기준을 확인하고 방문합니다. 시작 전에는 관리 시간, 집중 부위, 압의 강도, 피해야 할 부위를 짧게 점검합니다. $($svc.name)은 고객이 편안하게 느끼는 속도가 중요하므로 처음부터 강한 자극을 주기보다 반응을 보며 조절합니다. 관리 중 대화가 불편하면 조용한 진행을 요청할 수 있고, 반대로 압이나 자세를 바꾸고 싶을 때는 언제든 말할 수 있습니다."
-  $body += Section "다른 관리와의 차이" "$($svc.name)은 모든 고객에게 같은 방식으로 적용되는 코스가 아닙니다. 스웨디시는 부드러운 리듬, 아로마테라피는 향과 안정감, 림프 관리는 가벼운 방향성, 스포츠 관리는 활동 후 뻐근함, 오피스케어는 업무 자세, 패밀리웰니스는 동행 고객의 시간 조율을 더 중시합니다. 이런 차이를 예약 전에 이해하면 불필요한 변경을 줄일 수 있습니다. 88마사지는 코스명을 과장하기보다 실제 진행에서 무엇이 달라지는지 설명합니다."
-  $body += Section "이용 전 준비" "방문 공간은 관리 매트나 타월을 펼칠 수 있을 정도면 충분합니다. 호텔이나 오피스텔은 방문자 등록이 필요한지, 자택은 반려동물 분리와 주차 가능 여부를 미리 알려 주세요. 향을 사용하는 관리라면 알레르기와 잔향에 민감한지 확인해야 합니다. 식사 직후나 음주 후 이용은 권하지 않으며, 컨디션이 좋지 않다면 일정을 미루는 편이 안전합니다. 예약 변경은 가능한 빨리 알려 주시면 배정 조정이 쉽습니다."
+  $body = Hero "서비스 상세 안내" "$($svc.name) 출장마사지 서비스 안내" "$($svc.name) 서비스는 $($svc.tone)입니다. $($svc.user)에게 적합하며, 예약 전 컨디션과 방문 환경을 확인한 뒤 무리 없는 범위에서 진행합니다."
+  $body += Section "$($svc.name) 마사지란?" "$($svc.name) 서비스는 $($svc.feature)을 중심으로 하는 출장마사지 서비스입니다. 관리는 치료나 의학적 처치가 아니라 긴 하루 뒤 몸과 마음을 차분하게 정리하는 휴식 관리입니다. 상담 단계에서 최근 피로가 쌓인 부위, 피하고 싶은 압, 오일이나 스트레칭 가능 여부, 관리받을 공간의 밝기와 온도를 확인합니다. 특히 출장 관리는 낯선 공간에서 진행되기 때문에 시작 전 흐름을 다시 안내하고 불편한 느낌이 있으면 즉시 조절합니다."
+  $body += Section "$($svc.name) 관리가 필요한 경우" "$($svc.need)에 $($svc.name) 서비스를 고려할 수 있습니다. $($svc.user)이라면 처음 상담에서 원하는 압과 관리 목적을 분명히 말하면 안내가 빨라집니다. 다만 열감, 급성 통증, 외상, 의학적 판단이 필요한 상태라면 마사지를 먼저 선택하지 말고 전문 의료기관의 조언을 받는 것이 우선입니다. 이 페이지의 안내는 예약 결정을 돕기 위한 정보이며 건강 문제의 해결책으로 제시하지 않습니다."
+  $body += Section "$($svc.name) 마사지의 특징" "$($svc.name) 서비스의 특징은 $($svc.traits)입니다. 같은 출장마사지라도 서비스마다 준비물과 진행 템포가 다릅니다. 오일이 필요한 관리는 향 민감도와 타월 정리를 확인하고, 스트레칭이 들어가는 관리는 매트 공간과 복장을 함께 봅니다. 88마사지는 코스명을 과장하기보다 실제 현장에서 무엇이 달라지는지 설명합니다. 강도는 고객이 편안함을 느끼는 범위 안에서 조절하며 무리한 압이나 자세는 권하지 않습니다."
+  $body += Section "관리 진행 방식" "예약은 문의 접수, 지역 확인, 관리 시간 선택, 방문 조건 확인, 관리사 배정 순서로 진행됩니다. 관리사가 도착하면 공간과 위생 기준을 확인하고 시작 전 관리 시간, 집중 부위, 피해야 할 부위를 짧게 점검합니다. $($svc.name) 서비스는 상담 내용과 현장 상황이 다르면 고객에게 다시 확인한 뒤 진행합니다. 관리 중 대화가 불편하면 조용한 진행을 요청할 수 있고, 압이나 자세를 바꾸고 싶을 때는 언제든 말할 수 있습니다."
+  $body += Section "추천 관리 시간" "60분은 $($svc.time60)에게 적합합니다. 90분은 $($svc.time90)에게 좋고, 120분은 $($svc.time120)에게 어울립니다. 실제 추천 시간은 지역, 방문 공간, 고객 컨디션, 예약 가능 시간에 따라 달라질 수 있습니다. 처음 이용하는 고객은 너무 긴 시간보다 60분이나 90분으로 시작해 본인에게 맞는 압과 흐름을 확인하는 편이 안전합니다. 연장은 당일 배정 상황에 따라 가능 여부가 달라집니다."
+  $body += Section "$($svc.name)와 다른 마사지의 차이" "$($svc.compare) 예약 전에는 서비스명을 키워드처럼 고르기보다 원하는 느낌을 구체적으로 말하는 것이 좋습니다. 예를 들어 부드러운 휴식, 향을 곁들인 안정감, 특정 부위 집중, 스트레칭 중심, 활동 후 정리, 가벼운 방향성처럼 목적을 나누면 안내가 정확해집니다. 이런 차이를 이해하면 현장에서 코스를 바꾸는 일을 줄일 수 있습니다."
+  $body += Section "이용 전 준비사항" "방문 공간은 관리 매트나 타월을 펼칠 수 있을 정도면 충분합니다. 호텔이나 오피스텔은 방문자 등록이 필요한지, 자택은 반려동물 분리와 주차 가능 여부를 미리 알려 주세요. 식사 직후나 음주 후 이용은 권하지 않으며, 컨디션이 좋지 않다면 일정을 미루는 편이 안전합니다. 원하는 압 강도와 불편한 부위, 피해야 할 자세가 있다면 예약 단계에서 전달해 주세요."
+  $body += Section "예약 전 확인사항" "예약 전에는 출장 가능 지역, 예약 가능 시간, 관리 코스와 소요 시간, 추가 출장비 여부, 결제 방식을 확인합니다. 주소는 동 단위보다 건물 유형과 출입 방식까지 알려 주는 편이 좋습니다. 심야, 원거리, 교량·산간 이동은 가능 여부와 비용 기준이 달라질 수 있습니다. 88마사지는 현장에서 갑자기 조건을 바꾸지 않도록 상담 단계에서 가능한 범위와 어려운 범위를 나누어 설명합니다."
   $body += Section "작성·검수 기준" "이 페이지는 고객센터 운영팀이 실제 상담에서 자주 받는 질문을 기준으로 작성했습니다. 검색을 위한 반복 문구보다 예약 전 판단에 필요한 정보를 우선했고, 의료적 표현이나 효과 보장 문구는 사용하지 않았습니다. 정보가 바뀌는 경우 관리 범위, 준비 사항, FAQ를 먼저 수정합니다. 책임 저자와 연락처는 하단에 표시되어 있으며 잘못된 안내를 발견하면 문의를 통해 정정 요청을 할 수 있습니다."
-  $body += Section "상담 예시와 선택 기준" "$($svc.name)을 문의할 때는 원하는 느낌을 한 문장으로 설명하면 안내가 빨라집니다. 예를 들어 조용한 휴식이 필요한지, 업무 자세로 굳은 목과 어깨가 신경 쓰이는지, 향 사용을 피하고 싶은지에 따라 준비와 진행 방식이 달라집니다. $($svc.feature)을 원한다면 예약 전 공간 밝기, 실내 온도, 타월 사용 가능 여부도 함께 확인합니다. 관리 후 바로 장거리 운전이나 중요한 일정이 있다면 너무 강한 압보다 편안하게 마무리되는 흐름을 권합니다. 88마사지는 고객의 표현을 그대로 듣고 가능한 범위와 어려운 범위를 구분해 설명합니다."
-  $body += Section "$($svc.name) 현장 확인 기준" "관리사가 도착하면 바로 시작하기보다 공간과 고객 컨디션을 짧게 다시 확인합니다. 실내가 너무 춥거나 밝기가 부담스러운 경우, 관리 중 전화나 방문객이 예상되는 경우, 특정 부위를 피해야 하는 경우에는 시작 전에 조정하는 편이 좋습니다. $($svc.name)은 정해진 순서를 기계적으로 반복하는 서비스가 아니라 편안함을 기준으로 맞추는 예약 관리입니다. 그래서 상담 내용과 현장 상황이 다르면 고객에게 다시 확인한 뒤 진행합니다."
   $body += "<section class=`"content-section related`"><h2>함께 비교할 서비스</h2><div>$other</div></section>"
   $body += FaqBlock @(
-    @{q="$($svc.name)은 처음 받아도 괜찮나요?"; a="처음이라면 압을 낮게 시작하고 불편한 부위를 미리 알려 주는 방식으로 진행합니다."},
-    @{q="관리 시간은 어떻게 고르나요?"; a="짧게 정리하려면 60분, 여유 있게 전신 흐름을 잡으려면 90분 이상을 권합니다."},
-    @{q="출장 공간이 좁아도 가능한가요?"; a="매트나 타월을 펼칠 수 있고 이동 동선이 확보되면 상담 후 가능 여부를 안내합니다."}
+    @{q="$($svc.name) 서비스는 어떤 분에게 적합한가요?"; a="$($svc.user)에게 적합합니다. 예약 전 원하는 압과 목적을 알려 주시면 더 정확히 안내합니다."},
+    @{q="$($svc.name) 서비스는 압이 강한 관리인가요?"; a="$($svc.traits)를 기준으로 고객 반응에 맞춰 조절합니다. 불편하면 즉시 낮출 수 있습니다."},
+    @{q="출장 가능한 지역은 어디인가요?"; a="전국 주요 지역을 기준으로 상담하지만 시간대와 배정 상황에 따라 가능 여부가 달라집니다."},
+    @{q="관리 시간은 어떻게 선택하면 좋나요?"; a="가볍게 정리하려면 60분, 전신 흐름까지 보려면 90분, 여유로운 휴식은 120분을 상담할 수 있습니다."}
   )
-  return Layout "$($svc.name) 출장마사지 | $brand" "$($svc.name) 출장마사지의 특징, 진행 방식, 준비 사항, FAQ를 의료 과장 없이 안내합니다." "/services/$($svc.slug)/" $body "Service" "대한민국"
+  return Layout "$($svc.name) 출장마사지 서비스 안내 | $brand" "$($svc.name) 출장마사지의 특징, 추천 대상, 관리 방식, 이용 전 준비사항을 안내합니다. 고객 컨디션에 맞춘 건전한 휴식 관리를 확인해 보세요." "/services/$($svc.slug)/" $body "Service" "대한민국"
 }
 
 function Build-Region($r) {
@@ -291,6 +313,7 @@ function Build-AdminArea($a) {
 
 $pages = @()
 $pages += @{path="index.html"; url="/"; html=(Build-Main); title="$brand 메인"; desc="전국 출장마사지 예약 안내"}
+$pages += @{path="services/index.html"; url="/services/"; html=(Build-ServicesIndex); title="전국 출장마사지 서비스 안내"; desc="스웨디시, 아로마테라피, 딥티슈, 타이마사지, 스포츠마사지, 림프마사지 서비스 안내"}
 foreach ($svc in $services) {
   $path = "services/$($svc.slug)/index.html"
   $pages += @{path=$path; url="/services/$($svc.slug)/"; html=(Build-Service $svc); title="$($svc.name) 출장마사지"; desc="$($svc.name) 서비스 안내"}
@@ -349,7 +372,7 @@ Write-Utf8 "robots.txt" $robots
 
 $css = @"
 :root{--ink:#191714;--muted:#6e665b;--line:#e8dfd2;--paper:#fffaf1;--cream:#f8efe1;--gold:#b1843f;--green:#24483d;--red:#9d3e32}
-*{box-sizing:border-box}body{margin:0;font-family:Arial,'Noto Sans KR',sans-serif;color:var(--ink);background:var(--paper);line-height:1.75}a{color:inherit;text-decoration:none}.site-header{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:16px 5vw;background:rgba(255,250,241,.94);border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}.logo{font-weight:800;font-size:22px}.logo span{display:inline-grid;place-items:center;width:40px;height:40px;margin-right:8px;border-radius:8px;background:var(--green);color:#fff}.main-nav{display:flex;gap:18px;font-size:14px}.menu-button{display:none}.hero{min-height:560px;display:flex;align-items:center;background:linear-gradient(90deg,rgba(15,31,26,.92) 0%,rgba(15,31,26,.82) 38%,rgba(15,31,26,.42) 68%,rgba(15,31,26,.22) 100%),linear-gradient(0deg,rgba(15,31,26,.28),rgba(15,31,26,.28)),url('/assets/hero-wellness.png');background-size:cover;background-position:center right;padding:72px 5vw;color:#fff}.hero-inner{max-width:780px;text-shadow:0 2px 18px rgba(0,0,0,.28)}.eyebrow{color:#f4c36b;font-weight:700;letter-spacing:0}.hero h1{font-size:56px;line-height:1.1;margin:12px 0 20px}.lead{font-size:20px;max-width:760px}.hero-actions{display:flex;gap:12px;margin-top:28px}.primary,.secondary,.sticky-cta a{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 18px;border-radius:8px;font-weight:700}.primary{background:#f1bd5a;color:#22180d;text-shadow:none}.secondary{border:1px solid rgba(255,255,255,.58);color:#fff;background:rgba(15,31,26,.2);text-shadow:none}.content-section,.grid-section{max-width:1080px;margin:0 auto;padding:54px 5vw;border-bottom:1px solid var(--line)}h2{font-size:30px;line-height:1.25;margin:0 0 18px}.content-section p{margin:0;font-size:17px}.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.link-card{display:block;min-height:150px;padding:22px;border:1px solid var(--line);border-radius:8px;background:#fff}.link-card strong{display:block;font-size:20px;margin-bottom:10px}.link-card span{color:var(--muted)}.pill{display:inline-flex;margin:0 8px 8px 0;padding:10px 14px;border:1px solid var(--line);border-radius:999px;background:#fff}.faq details{border:1px solid var(--line);border-radius:8px;background:#fff;margin:12px 0;padding:14px 18px}.faq summary{cursor:pointer;font-weight:700}.site-footer{padding:42px 5vw 86px;background:#1d211e;color:#f8efe1}.site-footer p{max-width:980px;color:#d9cdbd}.sticky-cta{position:fixed;left:0;right:0;bottom:0;display:flex;gap:8px;justify-content:center;padding:10px;background:rgba(255,250,241,.94);border-top:1px solid var(--line)}.sticky-cta a:first-child{background:var(--red);color:#fff}.sticky-cta a:last-child{background:var(--green);color:#fff}@media(max-width:760px){.menu-button{display:block;border:1px solid var(--line);background:#fff;border-radius:8px;width:42px;height:42px}.main-nav{display:none;position:absolute;left:0;right:0;top:73px;flex-direction:column;padding:18px 5vw;background:#fff;border-bottom:1px solid var(--line)}.main-nav.open{display:flex}.hero{min-height:500px;padding:56px 5vw;background-position:center}.hero h1{font-size:38px}.lead{font-size:17px}.hero-actions{flex-direction:column}.card-grid{grid-template-columns:1fr}.content-section,.grid-section{padding:38px 5vw}h2{font-size:25px}}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,'Noto Sans KR',sans-serif;color:var(--ink);background:var(--paper);line-height:1.75}a{color:inherit;text-decoration:none}.site-header{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:16px 5vw;background:rgba(255,250,241,.94);border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}.logo{font-weight:800;font-size:22px}.logo span{display:inline-grid;place-items:center;width:40px;height:40px;margin-right:8px;border-radius:8px;background:var(--green);color:#fff}.main-nav{display:flex;gap:18px;font-size:14px;align-items:center}.nav-group{position:relative}.submenu{position:absolute;top:100%;left:0;display:none;min-width:180px;padding:10px;background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:0 14px 34px rgba(0,0,0,.12)}.submenu a{display:block;padding:8px 10px;color:var(--ink)}.nav-group:hover .submenu,.nav-group:focus-within .submenu{display:block}.menu-button{display:none}.hero{min-height:560px;display:flex;align-items:center;background:linear-gradient(90deg,rgba(15,31,26,.92) 0%,rgba(15,31,26,.82) 38%,rgba(15,31,26,.42) 68%,rgba(15,31,26,.22) 100%),linear-gradient(0deg,rgba(15,31,26,.28),rgba(15,31,26,.28)),url('/assets/hero-wellness.png');background-size:cover;background-position:center right;padding:72px 5vw;color:#fff}.hero-inner{max-width:780px;text-shadow:0 2px 18px rgba(0,0,0,.28)}.eyebrow{color:#f4c36b;font-weight:700;letter-spacing:0}.hero h1{font-size:56px;line-height:1.1;margin:12px 0 20px}.lead{font-size:20px;max-width:760px}.hero-actions{display:flex;gap:12px;margin-top:28px}.primary,.secondary,.sticky-cta a{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 18px;border-radius:8px;font-weight:700}.primary{background:#f1bd5a;color:#22180d;text-shadow:none}.secondary{border:1px solid rgba(255,255,255,.58);color:#fff;background:rgba(15,31,26,.2);text-shadow:none}.content-section,.grid-section{max-width:1080px;margin:0 auto;padding:54px 5vw;border-bottom:1px solid var(--line)}h2{font-size:30px;line-height:1.25;margin:0 0 18px}.content-section p{margin:0;font-size:17px}.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.link-card{display:block;min-height:150px;padding:22px;border:1px solid var(--line);border-radius:8px;background:#fff}.link-card strong{display:block;font-size:20px;margin-bottom:10px}.link-card span{color:var(--muted)}.pill{display:inline-flex;margin:0 8px 8px 0;padding:10px 14px;border:1px solid var(--line);border-radius:999px;background:#fff}.faq details{border:1px solid var(--line);border-radius:8px;background:#fff;margin:12px 0;padding:14px 18px}.faq summary{cursor:pointer;font-weight:700}.site-footer{padding:42px 5vw 86px;background:#1d211e;color:#f8efe1}.site-footer p{max-width:980px;color:#d9cdbd}.sticky-cta{position:fixed;left:0;right:0;bottom:0;display:flex;gap:8px;justify-content:center;padding:10px;background:rgba(255,250,241,.94);border-top:1px solid var(--line)}.sticky-cta a:first-child{background:var(--red);color:#fff}.sticky-cta a:last-child{background:var(--green);color:#fff}@media(max-width:760px){.menu-button{display:block;border:1px solid var(--line);background:#fff;border-radius:8px;width:42px;height:42px}.main-nav{display:none;position:absolute;left:0;right:0;top:73px;flex-direction:column;align-items:flex-start;padding:18px 5vw;background:#fff;border-bottom:1px solid var(--line)}.main-nav.open{display:flex}.nav-group{width:100%}.submenu{position:static;display:block;box-shadow:none;border:0;padding:6px 0 0 12px;background:transparent}.hero{min-height:500px;padding:56px 5vw;background-position:center}.hero h1{font-size:38px}.lead{font-size:17px}.hero-actions{flex-direction:column}.card-grid{grid-template-columns:1fr}.content-section,.grid-section{padding:38px 5vw}h2{font-size:25px}}
 "@
 Write-Utf8 "styles.css" $css
 
