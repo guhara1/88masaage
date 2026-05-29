@@ -641,6 +641,8 @@ function Layout($title, $description, $path, $body, $schemaType, $areaServed) {
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>$escapedTitle</title>
   <meta name="description" content="$escapedDescription">
+  <meta name="naver-site-verification" content="9921cece5eedf83b3eb6b624473f8d72e32c1c2f">
+  <meta name="google-site-verification" content="tLvzDmZ30YWnEXQJb7t1JHxf1OROGMjRlc_Yk5PiBkw">
   <link rel="canonical" href="$canonical">
   <meta property="og:type" content="website">
   <meta property="og:title" content="$escapedTitle">
