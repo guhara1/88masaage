@@ -136,6 +136,10 @@ gyeonggi|경기|city|icheon-si|이천시|창전, 증포, 부발, 마장|물류·
 gyeonggi|경기|city|anseong-si|안성시|공도, 석정, 대덕, 죽산|평택 인접 생활권과 외곽 이동 여부를 함께 확인합니다
 gyeonggi|경기|city|gimpo-si|김포시|구래, 장기, 사우, 풍무|한강신도시와 공항 인접 이동 변수가 있습니다
 gyeonggi|경기|city|hwaseong-si|화성시|동탄, 병점, 향남, 봉담|동탄 업무지와 외곽 산업권의 이동 차이가 큽니다
+gyeonggi|경기|admin-gu|hwaseong-manse-gu|화성 만세구|남양, 우정, 장안, 서신|서부 생활권과 해안·산업권 이동 조건을 함께 확인합니다
+gyeonggi|경기|admin-gu|hwaseong-hyohaeng-gu|화성 효행구|봉담, 정남, 매송, 기배|수원 인접 생활권과 외곽 주거지 예약이 함께 있습니다
+gyeonggi|경기|admin-gu|hwaseong-byeongjeom-gu|화성 병점구|병점, 진안, 반월, 기산|병점역 생활권과 동탄 인접 이동 흐름을 확인합니다
+gyeonggi|경기|admin-gu|hwaseong-dongtan-gu|화성 동탄구|동탄, 영천, 청계, 오산|신도시 업무지와 대단지 아파트 예약이 많습니다
 gyeonggi|경기|city|gwangju-si|광주시|경안, 태전, 오포, 곤지암|분당 인접권과 외곽 주거지가 넓게 퍼져 있습니다
 gyeonggi|경기|city|yangju-si|양주시|옥정, 덕정, 회천, 광적|신도시와 북부 외곽 이동 조건을 함께 봅니다
 gyeonggi|경기|city|pocheon-si|포천시|소흘, 신읍, 일동, 이동|산간 이동과 군부대 인접 생활권 문의가 있습니다
@@ -366,6 +370,80 @@ $adminAreas = foreach ($line in ($adminAreaRows -split "`n")) {
   }
 }
 
+function Normalize-Parent-Key($value) {
+  $text = ([string]$value).Trim()
+  $text = $text -replace "^(.+?)시(.+구)$", '$1 $2'
+  $text = $text -replace "시 ", " "
+  return $text
+}
+
+function Parent-Key-Candidates($value) {
+  $text = ([string]$value).Trim()
+  $normalized = Normalize-Parent-Key $text
+  $last = (($text -split " ") | Select-Object -Last 1)
+  $guOnly = ""
+  if ($text -match "^(.+?)시(.+구)$") { $guOnly = $matches[2] }
+  return @($text, $normalized, $last, $guOnly) | Where-Object { $_ } | Select-Object -Unique
+}
+
+$parentPages = @()
+foreach ($d in $districts) {
+  $display = "서울 $($d.name)"
+  $parentPages += [pscustomobject]@{regionSlug="seoul"; key=$d.name; slug=$d.slug; url="/areas/seoul/$($d.slug)/"; display=$display; short=$d.name}
+}
+foreach ($a in $adminAreas) {
+  if ($a.name.StartsWith($a.parent)) { $display = $a.name } else { $display = "$($a.parent) $($a.name)" }
+  $parentPages += [pscustomobject]@{regionSlug=$a.regionSlug; key=$a.name; slug=$a.slug; url="/areas/$($a.regionSlug)/$($a.slug)/"; display=$display; short=$a.name}
+}
+
+$parentPageByKey = @{}
+foreach ($p in $parentPages) {
+  foreach ($key in (Parent-Key-Candidates $p.key)) {
+    $parentPageByKey["$($p.regionSlug)|$key"] = $p
+  }
+  foreach ($key in (Parent-Key-Candidates $p.display)) {
+    $parentPageByKey["$($p.regionSlug)|$key"] = $p
+  }
+}
+
+function Resolve-Parent-Page($regionSlug, $sgg) {
+  foreach ($key in (Parent-Key-Candidates $sgg)) {
+    $lookup = "$regionSlug|$key"
+    if ($parentPageByKey.ContainsKey($lookup)) { return $parentPageByKey[$lookup] }
+  }
+  return $null
+}
+
+function Dong-Source-Text($name, $sources) {
+  if ($sources -and $sources -ne $name) {
+    return "$name 대표 페이지는 $sources 생활권을 하나로 묶어 안내합니다."
+  }
+  return "$name 단일 행정동 기준으로 예약 전 확인 사항을 안내합니다."
+}
+
+$dongAreas = @()
+if (Test-Path "data/admdongs.csv") {
+  $dongAreas = foreach ($row in (Import-Csv "data/admdongs.csv")) {
+    $parent = Resolve-Parent-Page $row.regionSlug $row.sgg
+    if (!$parent) { continue }
+    $sourceText = Dong-Source-Text $row.dong $row.sources
+    [pscustomobject]@{
+      regionSlug = $row.regionSlug
+      parentSlug = $parent.slug
+      parentUrl = $parent.url
+      parentDisplay = $parent.display
+      parentShort = $parent.short
+      sido = $row.sido
+      sgg = $row.sgg
+      name = $row.dong
+      sources = $row.sources
+      sourceText = $sourceText
+      code = $row.code
+      slug = "dong-$($row.code)"
+    }
+  }
+}
+
 function Section($title, $body) {
   return "<section class=`"content-section`"><h2>$title</h2><p>$body</p></section>"
 }
@@ -403,6 +481,17 @@ function Clean-Sentence($value) {
   return ([string]$value).Trim().TrimEnd(".")
 }
 
+function Topic-Text($value) {
+  $text = ([string]$value).Trim()
+  if (!$text) { return $text }
+  $last = [int][char]$text[$text.Length - 1]
+  if ($last -ge 0xAC00 -and $last -le 0xD7A3) {
+    if ((($last - 0xAC00) % 28) -eq 0) { return "$text`는" }
+    return "$text`은"
+  }
+  return "$text`은"
+}
+
 function Display-Area-Name($parent, $name) {
   $p = ([string]$parent).Trim()
   $n = ([string]$name).Trim()
@@ -419,6 +508,13 @@ function Meta-Check-Tail($type, $firstZone) {
     "county" { return "$firstZone 중심의 외곽 이동, 숙소 진입로, 추가 출장비 가능성을 확인합니다." }
     default { return "$firstZone 생활권의 출입 조건과 예약 가능 시간을 확인합니다." }
   }
+}
+
+function Dong-Links($regionSlug, $parentSlug) {
+  $items = $dongAreas | Where-Object { $_.regionSlug -eq $regionSlug -and $_.parentSlug -eq $parentSlug } | Sort-Object name
+  if (!$items -or $items.Count -eq 0) { return "" }
+  $links = ($items | ForEach-Object { "<a class=`"pill`" href=`"$($_.parentUrl)$($_.slug)/`">$($_.name)</a>" }) -join ""
+  return "<section class=`"content-section related`"><h2>행정동 ㄱㄴㄷ 안내</h2><div>$links</div></section>"
 }
 
 function Layout($title, $description, $path, $body, $schemaType, $areaServed) {
@@ -589,8 +685,9 @@ function Build-Region($r) {
 }
 
 function Build-District($d) {
+  $districtTopic = Topic-Text $d.name
   $body = Hero "서울 구별 상세 안내" "$($d.name) 출장마사지 서비스 안내" "$($d.zones) 생활권을 중심으로 예약 전 확인해야 할 방문 조건과 관리 선택 기준을 정리했습니다."
-  $body += Section "$($d.name) 이용 안내" "$($d.name)은 $($d.zones) 권역의 문의가 많은 지역입니다. $($d.scene) 같은 서울 안에서도 구마다 이동 흐름과 건물 유형이 달라 단순히 지역명만으로는 정확한 안내가 어렵습니다. 예약 전에는 상세 주소, 공간 유형, 희망 시작 시간, 주차 또는 공동현관 기준을 알려 주세요. 88마사지는 고객이 현장에서 당황하지 않도록 방문 가능 조건을 먼저 확인하고, 무리한 배정은 진행하지 않습니다."
+  $body += Section "$($d.name) 이용 안내" "$districtTopic $($d.zones) 권역의 문의가 많은 지역입니다. $($d.scene) 같은 서울 안에서도 구마다 이동 흐름과 건물 유형이 달라 단순히 지역명만으로는 정확한 안내가 어렵습니다. 예약 전에는 상세 주소, 공간 유형, 희망 시작 시간, 주차 또는 공동현관 기준을 알려 주세요. 88마사지는 고객이 현장에서 당황하지 않도록 방문 가능 조건을 먼저 확인하고, 무리한 배정은 진행하지 않습니다."
   $body += Section "주요 권역별 특징" "$($d.zones) 일대는 업무지, 주거지, 상권의 비중이 서로 다릅니다. 업무지에서는 퇴근 직후 짧은 관리 문의가 많고, 주거지에서는 조용한 방문과 가족 동선 배려가 중요합니다. 호텔이나 숙소는 외부 방문 정책이 다를 수 있어 예약명과 프런트 안내 기준을 미리 확인해야 합니다. 오피스텔은 엘리베이터 호출, 주차 등록, 공동현관 호출 방식이 달라 관리사 도착 시간이 변할 수 있습니다."
   $body += Section "예약 전 확인 사항" "$($d.name) 예약에서는 시작 시간보다 도착 가능 조건이 더 중요할 때가 있습니다. 건물 앞 정차가 어려운 곳, 심야 출입이 제한되는 곳, 주차가 유료인 곳은 상담에서 미리 공유해 주세요. 관리 시간은 60분, 90분, 120분 단위로 안내하며 컨디션에 따라 압과 집중 부위를 조절합니다. 음주 직후, 발열, 급성 통증, 외상처럼 안전한 진행이 어려운 상태에서는 예약을 권하지 않습니다."
   $body += Section "이용 가능한 관리" "스웨디시는 부드러운 휴식, 아로마테라피는 향과 안정감, 림프마사지는 가벼운 흐름, 스포츠마사지는 활동 후 뻐근함, 오피스케어는 목과 어깨 중심 관리에 어울립니다. $($d.name) 고객은 하루 일정과 공간 조건이 다르기 때문에 코스명만 보고 선택하기보다 원하는 느낌과 피하고 싶은 자극을 함께 말하는 것이 좋습니다. 88마사지는 치료나 효과 보장 표현을 쓰지 않고, 편안한 휴식 관리 범위에서 안내합니다."
@@ -598,7 +695,8 @@ function Build-District($d) {
   $body += Section "작성·검수 기준" "이 페이지는 $($d.name)의 권역명, 건물 유형, 예약 상황을 반영해 작성했습니다. 서울의 다른 구와 같은 문단을 반복하지 않도록 $($d.zones) 생활권의 특징을 본문에 포함했습니다. 정보는 고객센터 운영팀이 검수하며, 실제 상담에서 반복되는 질문이 바뀌면 FAQ와 안내 문단을 수정합니다. 검색을 위한 키워드 나열보다 이용자가 예약 전 확인할 수 있는 실질 정보를 우선합니다."
   $body += Section "$($d.name) 상담 메모" "$($d.name)에서 빠르게 예약을 확인하려면 '$($d.zones) 중 어느 권역인지, 방문 장소가 자택인지 숙소인지, 주차나 공동현관 호출이 가능한지'를 함께 알려 주세요. $($d.scene) 이런 특징 때문에 같은 구 안에서도 20분 이상 도착 시간이 달라질 수 있습니다. 업무지에서는 관리 시작 전 짧은 정리 시간이 필요하고, 주거지에서는 가족이나 이웃에게 방해되지 않는 조용한 방문이 중요합니다. 88마사지는 예약을 성사시키는 것보다 실제로 편안히 받을 수 있는 조건인지 확인하는 일을 먼저 둡니다."
   $body += Section "$($d.name) 현장 확인 기준" "$($d.name) 예약 당일에는 건물 앞 정차 가능 여부와 호출 방식을 다시 확인합니다. $($d.zones) 일대는 상권, 주거지, 역세권이 가까워 기사 이동 경로와 관리사 도보 이동 시간이 다르게 잡힐 수 있습니다. 고객이 원하는 시작 시간이 분명하다면 주소 공유를 늦추지 않는 것이 좋습니다. 방문 후에는 관리 범위와 시간을 다시 확인하고, 불편한 압이나 자세가 있으면 즉시 조절합니다. 이 기준은 모든 고객에게 같은 설명을 반복하기 위한 것이 아니라 $($d.name)에서 자주 생기는 현장 변수를 줄이기 위한 안내입니다."
-  $body += Section "$($d.name) 예약자 체크리스트" "문의 전에는 $($d.zones) 중 가까운 권역, 희망 시간, 공간 유형, 관리 시간을 정리해 주세요. $($d.name)은 서울 안에서도 이동 변수가 뚜렷해 세부 정보가 빠르면 더 정확한 답변을 받을 수 있습니다. 확인된 조건만으로 예약을 안내합니다."
+  $body += Section "$($d.name) 예약자 체크리스트" "문의 전에는 $($d.zones) 중 가까운 권역, 희망 시간, 공간 유형, 관리 시간을 정리해 주세요. $districtTopic 서울 안에서도 이동 변수가 뚜렷해 세부 정보가 빠르면 더 정확한 답변을 받을 수 있습니다. 확인된 조건만으로 예약을 안내합니다."
+  $body += Dong-Links "seoul" $d.slug
   $body += FaqBlock @(
     @{q="$($d.name) $($d.zones.Split(',')[0]) 근처도 가능한가요?"; a="당일 배정 상황과 시간대에 따라 가능합니다. 상세 주소를 알려 주시면 이동 가능 시간을 확인합니다."},
     @{q="오피스텔 방문 시 무엇을 알려야 하나요?"; a="공동현관 호출 방식, 엘리베이터 이용 기준, 주차 가능 여부를 알려 주시면 좋습니다."},
@@ -610,16 +708,19 @@ function Build-District($d) {
 }
 
 function Build-AdminArea($a) {
+  $adminTopic = Topic-Text $a.name
+  $adminSceneFull = Clean-Sentence $a.scene
   $body = Hero "$($a.parent) 상세 지역 안내" "$($a.name) 출장마사지 예약 안내" "$($a.zones) 생활권의 이동 조건과 공간 유형을 기준으로 예약 전 확인 사항을 정리했습니다."
-  $body += Section "$($a.name) 이용 상황" "$($a.name)은 $($a.zones) 권역의 문의가 많은 지역입니다. $($a.scene) 같은 시 안에서도 업무지, 주거 단지, 숙박시설, 산업단지의 거리와 출입 조건이 다르기 때문에 세부 주소 확인이 중요합니다. 88마사지는 예약 가능 여부를 넓게 말하기보다 실제 방문 가능한 시간과 관리 종류를 먼저 안내합니다. 고객이 불필요하게 기다리지 않도록 이동 변수와 배정 가능 인력을 함께 확인합니다."
+  $body += Section "$($a.name) 이용 상황" "$adminTopic $($a.zones) 권역의 문의가 많은 지역입니다. $adminSceneFull. 같은 시 안에서도 업무지, 주거 단지, 숙박시설, 산업단지의 거리와 출입 조건이 다르기 때문에 세부 주소 확인이 중요합니다. 88마사지는 예약 가능 여부를 넓게 말하기보다 실제 방문 가능한 시간과 관리 종류를 먼저 안내합니다. 고객이 불필요하게 기다리지 않도록 이동 변수와 배정 가능 인력을 함께 확인합니다."
   $body += Section "생활권별 체크 포인트" "$($a.zones) 주변은 시간대에 따라 도로 흐름이 크게 바뀔 수 있습니다. 출퇴근 시간, 행사 종료 시간, 단지 내 주차 기준, 숙소 프런트 정책이 모두 도착 시간에 영향을 줍니다. 상담 시 건물명과 동, 출입구 위치, 주차장 진입 가능 여부를 알려 주면 배정이 더 정확해집니다. 특히 외곽이나 산업단지 인근은 같은 주소라도 야간 진입 동선이 달라질 수 있습니다."
   $body += Section "관리 선택 기준" "업무 후 짧게 쉬고 싶다면 오피스케어나 스웨디시, 여행이나 장거리 이동 뒤에는 아로마테라피와 림프마사지를 고려할 수 있습니다. 활동량이 많은 날에는 스포츠마사지가 어울릴 수 있지만 강한 압을 무조건 권하지 않습니다. 현재 컨디션, 피하고 싶은 부위, 원하는 압을 알려 주면 관리 범위를 조절합니다. 88마사지는 의료 행위가 아니므로 통증 치료나 질환 개선을 약속하지 않습니다."
   $body += Section "요금과 변경 기준" "요금은 관리 시간과 서비스 종류, 이동 거리, 시간대에 따라 상담 단계에서 안내합니다. $($a.name)처럼 생활권이 넓은 지역은 같은 시 안에서도 출장비가 달라질 수 있습니다. 심야 예약, 원거리 이동, 악천후, 주차 불가 상황은 배정 가능 여부에 영향을 줍니다. 예약 변경이 필요하면 가능한 빨리 알려 주세요. 관리사 이동 후 취소는 별도 기준이 적용될 수 있습니다."
   $body += Section "안전한 이용 안내" "방문 전 공간을 정리하고 귀중품을 보관해 주세요. 음주 직후, 발열, 외상, 급성 통증, 피부 이상이 있다면 이용을 미루는 것이 좋습니다. 관리 중 불편한 느낌이 있으면 즉시 말해야 하며, 관리사는 고객의 요청에 따라 압과 자세를 조절합니다. 무리한 요구나 예약 범위를 벗어난 요청은 진행하지 않습니다. 건전한 휴식 관리가 유지될 때 서비스 품질도 안정됩니다."
   $body += Section "작성·검수 기준" "이 페이지는 $($a.name) 지역의 권역명과 이동 조건을 바탕으로 작성했습니다. 지역명만 바꾸는 복사 문단을 피하기 위해 $($a.zones) 생활권과 실제 예약 변수를 본문에 반영했습니다. 고객센터 운영팀이 작성과 검수를 맡으며, 문의 패턴이 달라지면 내용을 갱신합니다. 구조화 데이터는 실제 페이지 내용과 일치하는 서비스 안내 범위로만 사용합니다."
-  $body += Section "$($a.name) 상담 메모" "$($a.name) 예약에서는 '$($a.zones) 중 어느 생활권인지'가 첫 확인 항목입니다. $($a.scene) 따라서 주소가 확정되지 않은 상태에서는 가능 여부가 넓게 보일 수 있지만, 실제 배정은 도로 흐름과 출입 조건을 확인해야 정확합니다. 회사 숙소, 아파트, 호텔, 단기 임대 공간은 방문 절차가 서로 다릅니다. 관리사가 도착한 뒤 출입이 막히면 고객과 관리사 모두 시간이 손실되므로 예약 전 안내가 중요합니다. 88마사지는 이런 변수를 숨기지 않고 상담 단계에서 가능한 범위와 추가 확인이 필요한 범위를 나눠 설명합니다."
+  $body += Section "$($a.name) 상담 메모" "$($a.name) 예약에서는 '$($a.zones) 중 어느 생활권인지'가 첫 확인 항목입니다. $adminSceneFull. 따라서 주소가 확정되지 않은 상태에서는 가능 여부가 넓게 보일 수 있지만, 실제 배정은 도로 흐름과 출입 조건을 확인해야 정확합니다. 회사 숙소, 아파트, 호텔, 단기 임대 공간은 방문 절차가 서로 다릅니다. 관리사가 도착한 뒤 출입이 막히면 고객과 관리사 모두 시간이 손실되므로 예약 전 안내가 중요합니다. 88마사지는 이런 변수를 숨기지 않고 상담 단계에서 가능한 범위와 추가 확인이 필요한 범위를 나눠 설명합니다."
   $body += Section "$($a.name) 현장 확인 기준" "$($a.name)에서는 예약 직전 위치 확인이 특히 중요합니다. $($a.zones) 권역은 생활권이 넓거나 도로 흐름이 달라 같은 시 안에서도 이동 시간이 크게 차이 날 수 있습니다. 고객이 숙소명을 알고 있어도 실제 입구가 다른 경우가 있고, 아파트 단지는 방문자 등록 위치가 별도로 운영되기도 합니다. 상담 단계에서 이런 내용을 확인하면 현장 대기를 줄이고 관리 시간을 온전히 사용할 수 있습니다. 88마사지는 방문이 어렵다고 판단되는 상황을 숨기지 않고, 가능한 시간으로 조정하거나 예약을 보류하는 방식으로 안내합니다."
-  $body += Section "$($a.name) 예약자 체크리스트" "문의 전에는 $($a.zones) 중 실제 위치, 방문 공간의 종류, 엘리베이터와 주차 조건, 원하는 관리 시간을 알려 주세요. $($a.name)은 $($a.scene) 이 특성이 있어 상담 단계의 정보가 도착 시간과 출장비 안내에 직접 영향을 줍니다. 주소가 아직 확정되지 않았다면 가까운 기준 지점을 먼저 공유하고, 확정 후 다시 확인하는 방식이 좋습니다."
+  $body += Section "$($a.name) 예약자 체크리스트" "문의 전에는 $($a.zones) 중 실제 위치, 방문 공간의 종류, 엘리베이터와 주차 조건, 원하는 관리 시간을 알려 주세요. $adminTopic $adminSceneFull. 이런 특성이 있어 상담 단계의 정보가 도착 시간과 출장비 안내에 직접 영향을 줍니다. 주소가 아직 확정되지 않았다면 가까운 기준 지점을 먼저 공유하고, 확정 후 다시 확인하는 방식이 좋습니다."
+  $body += Dong-Links $a.regionSlug $a.slug
   $body += FaqBlock @(
     @{q="$($a.name) 외곽도 방문 가능한가요?"; a="세부 주소와 시간대에 따라 다릅니다. 상담 시 이동 가능 여부와 예상 도착 시간을 확인합니다."},
     @{q="당일 예약도 가능한가요?"; a="가능한 경우가 있지만 배정 상황에 따라 달라집니다. 희망 시간보다 여유 있게 문의하는 편이 좋습니다."},
@@ -631,6 +732,28 @@ function Build-AdminArea($a) {
   $adminDisplayName = Display-Area-Name $a.parent $a.name
   $adminTail = Meta-Check-Tail $a.type $adminFirstZone
   return Layout "$($a.name) 출장마사지 | $adminFirstZone 중심 $adminTypeLabel 안내" "$adminDisplayName 출장마사지 안내입니다. $($a.zones) 생활권은 $adminScene. $adminTail" "/areas/$($a.regionSlug)/$($a.slug)/" $body "Service" $adminDisplayName
+}
+
+function Build-DongArea($d) {
+  $displayName = "$($d.parentDisplay) $($d.name)"
+  $sourceSentence = $d.sourceText
+  $body = Hero "행정동 상세 안내" "$displayName 출장마사지 예약 안내" "$($d.parentDisplay) 안에서도 $($d.name) 생활권은 건물 유형, 출입 방식, 이동 시간이 달라 예약 전 세부 확인이 필요합니다."
+  $body += Section "$($d.name) 이용 상황" "$displayName 문의는 같은 시군구 안에서도 더 좁은 생활권을 기준으로 확인합니다. $sourceSentence 단순히 구나 시 이름만 남기면 실제 도착 가능 시간, 주차 위치, 공동현관 호출 방식이 달라질 수 있습니다. 88마사지는 행정동 단위 페이지를 검색 노출용 복제 문서로 만들지 않고, 예약자가 상담 전에 확인해야 할 동선과 공간 조건을 정리하는 용도로 운영합니다."
+  $body += Section "방문 전 위치 확인" "$($d.name)에서는 상세 주소, 건물명, 동·호수 전달 방식, 출입구 위치를 먼저 확인합니다. 아파트는 방문자 등록과 지하 주차장 진입 기준이 다르고, 오피스텔은 공동현관 호출이나 엘리베이터 이용 방식이 다를 수 있습니다. 숙소나 호텔은 외부 방문 정책이 바뀔 수 있으므로 예약명과 프런트 안내 기준을 함께 알려 주세요. 작은 정보 차이가 관리 시작 시간을 크게 바꿀 수 있습니다."
+  $body += Section "관리 선택 기준" "짧은 휴식이 필요하면 스웨디시나 오피스케어처럼 부담이 적은 관리를 먼저 상담할 수 있습니다. 이동이나 출장 일정 뒤에는 아로마테라피, 활동량이 많은 날에는 스포츠마사지, 강한 압이 부담스러운 고객은 림프마사지를 고려할 수 있습니다. 다만 모든 관리는 치료나 진단 목적이 아니며 통증, 외상, 발열, 의학적 판단이 필요한 상태라면 이용을 미루고 전문가 상담을 받는 것이 우선입니다."
+  $body += Section "예약 시간과 출장비" "$displayName 예약은 희망 시작 시간보다 실제 방문 가능한 조건을 먼저 봅니다. 출퇴근 시간, 행사 종료 시간, 심야 이동, 주차 불가 상황은 출장비와 도착 시간 안내에 영향을 줄 수 있습니다. 60분은 가벼운 정리, 90분은 전신 흐름과 집중 부위 조합, 120분은 여유 있는 휴식에 적합합니다. 비용은 관리 종류, 시간, 이동 조건을 확인한 뒤 상담 단계에서 안내합니다."
+  $body += Section "공간 준비와 이용 매너" "관리받을 공간은 타월이나 매트를 펼칠 수 있을 정도로 정리해 주세요. 귀중품은 별도로 보관하고, 반려동물이나 가족 동선이 있다면 관리 중 방해가 없도록 미리 조정하는 것이 좋습니다. 음주 직후나 과식 직후 이용은 권하지 않습니다. 관리 중 압이 강하거나 자세가 불편하면 바로 말해 주세요. 예약 범위를 벗어난 요구나 건전한 휴식 관리 기준에 맞지 않는 요청은 진행하지 않습니다."
+  $body += Section "작성·검수 기준" "이 페이지는 $displayName 행정동 단위의 예약 확인을 돕기 위해 만들었습니다. $sourceSentence 지역명만 바꾼 문장을 대량으로 반복하지 않도록 부모 지역, 행정동명, 통합 대상 동, 출입·주차·예약 시간 변수를 페이지마다 다르게 반영합니다. 내용은 고객센터 운영팀이 검수하며, 행정동 변경이나 상담 패턴 변화가 있으면 CSV 데이터와 sitemap을 다시 생성합니다."
+  $body += Section "행정동 단위 안내를 보는 방법" "$($d.name) 페이지는 더 큰 지역 페이지를 대체하기보다 예약 전 확인 범위를 좁히는 보조 안내입니다. 같은 $($d.parentShort) 안에서도 역세권, 주거 단지, 숙박시설, 업무 공간은 도착 동선과 준비 방식이 다릅니다. 그래서 이 페이지에서는 검색 키워드를 반복하기보다 $($d.sources) 생활권에서 자주 확인해야 하는 주소 확정, 주차 위치, 방문자 등록, 관리 시작 전 연락 가능 여부를 우선합니다. 실제 예약은 상담 시점의 배정 상황을 기준으로 다시 안내합니다."
+  $body += Section "데이터 반영 기준" "행정동 목록은 2026년 4월 기준 공개 행정동 경계 자료의 명칭을 바탕으로 정리했습니다. 다만 현장 예약은 지도 경계보다 실제 주소, 건물 출입 정책, 관리사 이동 가능 시간이 더 중요합니다. 행정동이 분동되거나 통합된 경우에는 검색자가 헷갈리지 않도록 대표 동명으로 묶고, 본문과 FAQ에서 통합 대상 명칭을 함께 표시합니다. 상담 기록에서 자주 확인되는 혼선도 갱신 때 반영합니다."
+  $body += Section "$($d.name) 상담 체크리스트" "문의 전에는 $($d.name) 실제 위치, 희망 시간, 공간 유형, 공동현관 또는 프런트 기준, 원하는 관리 시간을 정리해 주세요. $($d.sources) 중 어느 생활권인지 알 수 있으면 배정 확인이 더 빠릅니다. 주소가 확정되지 않았다면 가까운 기준 지점을 먼저 공유하고, 확정 후 다시 확인하는 방식이 좋습니다. 88마사지는 확인된 정보만 기준으로 예약 가능 여부를 안내합니다."
+  $body += FaqBlock @(
+    @{q="$($d.name)에서 당일 예약도 가능한가요?"; a="가능한 경우가 있지만 배정 상황과 이동 조건에 따라 달라집니다. 상세 주소와 희망 시간을 알려 주시면 당일 기준으로 확인합니다."},
+    @{q="$($d.sources) 통합 안내는 무슨 뜻인가요?"; a="번호가 붙은 1동, 2동, 3동 등은 대표 생활권으로 묶어 한 페이지에서 안내한다는 의미입니다."},
+    @{q="동 단위 페이지가 의료 효과를 보장하나요?"; a="아닙니다. 이 페이지는 예약 전 위치와 이용 조건을 안내하며 치료, 진단, 효과 보장을 하지 않습니다."}
+  )
+  $description = "$displayName 출장마사지 안내입니다. $($d.sources) 생활권을 기준으로 출입, 주차, 공동현관, 예약 시간과 출장비 확인 사항을 정리했습니다."
+  return Layout "$displayName 출장마사지 | 행정동 방문 안내" $description "$($d.parentUrl)$($d.slug)/" $body "Service" $displayName
 }
 
 $pages = @()
@@ -652,6 +775,11 @@ foreach ($a in $adminAreas) {
   $path = "areas/$($a.regionSlug)/$($a.slug)/index.html"
   $displayName = Display-Area-Name $a.parent $a.name
   $pages += @{path=$path; url="/areas/$($a.regionSlug)/$($a.slug)/"; html=(Build-AdminArea $a); title="$($a.name) 출장마사지 - $(First-Zone $a.zones) $(Area-Type-Label $a.type)"; desc="$displayName $($a.zones) $((Clean-Sentence (Short-Text $a.scene 40))) $(Meta-Check-Tail $a.type (First-Zone $a.zones))"}
+}
+foreach ($d in $dongAreas) {
+  $path = "areas/$($d.regionSlug)/$($d.parentSlug)/$($d.slug)/index.html"
+  $displayName = "$($d.parentDisplay) $($d.name)"
+  $pages += @{path=$path; url="$($d.parentUrl)$($d.slug)/"; html=(Build-DongArea $d); title="$displayName 출장마사지 - 행정동 안내"; desc="$displayName $($d.sources) 출입, 주차, 예약 시간 확인"}
 }
 
 foreach ($page in $pages) {
