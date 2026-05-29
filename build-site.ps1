@@ -145,7 +145,7 @@ gyeonggi|경기|county|gapyeong-gun|가평군|가평읍, 청평, 설악, 조종|
 gyeonggi|경기|county|yangpyeong-gun|양평군|양평읍, 용문, 서종, 강상|전원주택과 숙박시설 진입로 확인이 필요합니다
 "@
 
-$adminAreaRows += @"
+$adminAreaRows += "`n" + @"
 jeolla|전라|city|jeonju-si|전주시|완산, 덕진, 혁신도시, 한옥마을|여행 숙소와 주거지 예약이 모두 있어 공간 유형별 안내가 필요합니다
 jeolla|전라|admin-gu|jeonju-wansan-gu|전주 완산구|한옥마을, 효자, 삼천, 평화|관광 숙소와 주거권 문의가 함께 있습니다
 jeolla|전라|admin-gu|jeonju-deokjin-gu|전주 덕진구|덕진, 송천, 인후, 혁신도시|대학가와 신도시 생활권 예약이 섞입니다
@@ -186,7 +186,7 @@ jeolla|전라|county|jindo-gun|진도군|진도읍, 군내, 고군, 의신|섬 �
 jeolla|전라|county|sinan-gun|신안군|압해, 지도, 증도, 비금|도서 지역 특성상 실제 배정 가능 여부를 별도로 안내합니다
 "@
 
-$adminAreaRows += @"
+$adminAreaRows += "`n" + @"
 gyeongsang|경상|city|pohang-si|포항시|죽도, 영일대, 효자, 오천|해안 숙소와 산업권 예약이 함께 나타납니다
 gyeongsang|경상|admin-gu|pohang-nam-gu|포항 남구|오천, 효자, 대이, 연일|산업권과 주거지 이동 조건을 확인합니다
 gyeongsang|경상|admin-gu|pohang-buk-gu|포항 북구|영일대, 장성, 양덕, 죽도|해안 숙소와 도심 상권 문의가 많습니다
@@ -238,7 +238,7 @@ jeju|제주|admin-city|jeju-si|제주시|노형, 연동, 아라, 함덕|공항�
 jeju|제주|admin-city|seogwipo-si|서귀포시|중문, 서귀동, 대정, 성산|관광 숙소와 동서 이동 시간이 달라 예약 여유가 필요합니다
 "@
 
-$adminAreaRows += @"
+$adminAreaRows += "`n" + @"
 incheon|인천|gu|incheon-jung-gu|인천 중구|영종, 운서, 신포, 개항장|공항 일정과 원도심 숙소 문의가 함께 나타납니다
 incheon|인천|gu|incheon-dong-gu|인천 동구|송림, 화수, 만석, 금창|원도심 주거지와 항만 인접 이동 조건을 확인합니다
 incheon|인천|gu|michuhol-gu|미추홀구|주안, 용현, 도화, 학익|역세권 오피스텔과 주거지 방문이 많습니다
@@ -267,7 +267,7 @@ busan|부산|gu|sasang-gu|사상구|괘법, 주례, 엄궁, 학장|터미널과 
 busan|부산|county|gijang-gun|기장군|정관, 기장읍, 일광, 장안|해안 리조트와 외곽 이동 시간이 달라집니다
 "@
 
-$adminAreaRows += @"
+$adminAreaRows += "`n" + @"
 daegu|대구|gu|daegu-jung-gu|대구 중구|동성로, 반월당, 남산, 대신|도심 상권과 숙소 문의가 많아 주차 조건 확인이 필요합니다
 daegu|대구|gu|daegu-dong-gu|대구 동구|동대구역, 신암, 혁신도시, 안심|역세권 출장 일정과 신도시 주거권 문의가 함께 있습니다
 daegu|대구|gu|daegu-seo-gu|대구 서구|평리, 내당, 비산, 원대|구도심 주거권과 산업지 인접 이동을 함께 봅니다
@@ -295,7 +295,7 @@ ulsan|울산|county|ulju-gun|울주군|언양, 범서, 온산, 서생|산단과 
 sejong|세종|admin-city|sejong-si|세종시|나성, 보람, 조치원, 아름|정부청사와 신도심 아파트 예약이 많아 방문자 등록을 확인합니다
 "@
 
-$adminAreaRows += @"
+$adminAreaRows += "`n" + @"
 gangwon|강원|city|chuncheon-si|춘천시|퇴계, 석사, 후평, 강촌|관광 숙소와 주거권 문의가 함께 있습니다
 gangwon|강원|city|wonju-si|원주시|무실, 단계, 혁신도시, 단구|혁신도시 업무 일정과 주거지 예약이 섞입니다
 gangwon|강원|city|gangneung-si|강릉시|교동, 경포, 주문진, 포남|해안 숙소와 도심 생활권 이동 조건이 다릅니다
@@ -316,7 +316,7 @@ gangwon|강원|county|goseong-gun-gw|고성군|간성, 거진, 토성, 죽왕|�
 gangwon|강원|county|yangyang-gun|양양군|양양읍, 낙산, 현남, 강현|서핑 숙소와 관광지 이동 조건을 먼저 봅니다
 "@
 
-$adminAreaRows += @"
+$adminAreaRows += "`n" + @"
 chungcheong|충청|city|cheongju-si|청주시|오송, 복대, 율량, 상당|오송 출장과 도심 주거권 예약이 섞여 일정 확인이 중요합니다
 chungcheong|충청|admin-gu|cheongju-sangdang-gu|청주 상당구|성안, 용암, 금천, 문의|원도심과 주거권 방문 조건이 함께 나타납니다
 chungcheong|충청|admin-gu|cheongju-seowon-gu|청주 서원구|사창, 산남, 분평, 수곡|대학가와 주거지 예약이 섞여 공간 조건을 봅니다
@@ -376,6 +376,49 @@ function FaqBlock($items) {
     $html += "<details><summary>$($item.q)</summary><p>$($item.a)</p></details>"
   }
   return $html + "</section>"
+}
+
+function First-Zone($zones) {
+  return (($zones -split ",")[0]).Trim()
+}
+
+function Area-Type-Label($type) {
+  switch ($type) {
+    "city" { "시 단위" }
+    "admin-city" { "행정시" }
+    "admin-gu" { "행정구" }
+    "gu" { "구 단위" }
+    "county" { "군 단위" }
+    default { "행정지역" }
+  }
+}
+
+function Short-Text($value, $max) {
+  $text = ([string]$value).Trim()
+  if ($text.Length -le $max) { return $text }
+  return $text.Substring(0, $max).Trim()
+}
+
+function Clean-Sentence($value) {
+  return ([string]$value).Trim().TrimEnd(".")
+}
+
+function Display-Area-Name($parent, $name) {
+  $p = ([string]$parent).Trim()
+  $n = ([string]$name).Trim()
+  if ($n.StartsWith($p)) { return $n }
+  return "$p $n"
+}
+
+function Meta-Check-Tail($type, $firstZone) {
+  switch ($type) {
+    "city" { return "$firstZone 접근 동선, 도심과 외곽 이동 시간, 주차 가능 여부를 함께 확인합니다." }
+    "admin-city" { return "$firstZone 숙소권, 동서 이동 시간, 관광 일정 이후의 예약 여유를 확인합니다." }
+    "admin-gu" { return "$firstZone 생활권의 공동현관, 방문자 등록, 단지 내 이동 기준을 확인합니다." }
+    "gu" { return "$firstZone 권역의 상권·주거지 출입 조건과 시간대별 이동 흐름을 확인합니다." }
+    "county" { return "$firstZone 중심의 외곽 이동, 숙소 진입로, 추가 출장비 가능성을 확인합니다." }
+    default { return "$firstZone 생활권의 출입 조건과 예약 가능 시간을 확인합니다." }
+  }
 }
 
 function Layout($title, $description, $path, $body, $schemaType, $areaServed) {
@@ -540,7 +583,9 @@ function Build-Region($r) {
     @{q="출장비는 언제 확정되나요?"; a="주소, 시간대, 관리 시간, 이동 거리 확인 후 상담 단계에서 안내합니다."},
     @{q="호텔에서도 예약할 수 있나요?"; a="숙소 정책상 외부 방문이 가능한지 확인되면 상담 후 진행할 수 있습니다."}
   )
-  return Layout "$($r.name) 출장마사지 | $brand 지역 안내" "$($r.name) 출장마사지 예약 전 생활권, 이동 조건, 출장비, 준비 사항을 안내합니다." "/areas/$($r.slug)/" $body "Service" $r.name
+  $regionTitlePoint = (Short-Text $r.focus 24)
+  $regionDescMove = Clean-Sentence (Short-Text $r.movement 56)
+  return Layout "$($r.name) 출장마사지 | $regionTitlePoint" "$($r.name) 출장마사지 안내입니다. $regionDescMove. 예약 전 대표 생활권, 숙소 유형, 이동 조건과 비용 기준을 함께 확인합니다." "/areas/$($r.slug)/" $body "Service" $r.name
 }
 
 function Build-District($d) {
@@ -559,7 +604,9 @@ function Build-District($d) {
     @{q="오피스텔 방문 시 무엇을 알려야 하나요?"; a="공동현관 호출 방식, 엘리베이터 이용 기준, 주차 가능 여부를 알려 주시면 좋습니다."},
     @{q="조용히 진행할 수 있나요?"; a="가능합니다. 대화를 최소화하고 압 조절 요청만 간단히 주고받는 방식으로 진행할 수 있습니다."}
   )
-  return Layout "$($d.name) 출장마사지 | $brand 서울 지역 안내" "$($d.name) 출장마사지 예약 전 $($d.zones) 권역의 방문 조건, 관리 선택, FAQ를 안내합니다." "/areas/seoul/$($d.slug)/" $body "Service" "서울 $($d.name)"
+  $districtFirstZone = First-Zone $d.zones
+  $districtScene = Clean-Sentence (Short-Text $d.scene 58)
+  return Layout "$($d.name) 출장마사지 | $districtFirstZone 생활권 방문 안내" "$($d.name) 출장마사지 안내입니다. $($d.zones) 권역은 $districtScene. 예약 전 $districtFirstZone 주변 주차, 공동현관, 관리 시작 시간을 확인합니다." "/areas/seoul/$($d.slug)/" $body "Service" "서울 $($d.name)"
 }
 
 function Build-AdminArea($a) {
@@ -578,7 +625,12 @@ function Build-AdminArea($a) {
     @{q="당일 예약도 가능한가요?"; a="가능한 경우가 있지만 배정 상황에 따라 달라집니다. 희망 시간보다 여유 있게 문의하는 편이 좋습니다."},
     @{q="출장비는 왜 지역 안에서도 다른가요?"; a="거리, 주차, 도로 상황, 심야 여부가 달라 실제 이동 시간이 달라지기 때문입니다."}
   )
-  return Layout "$($a.name) 출장마사지 예약 안내 | $($a.parent) $brand" "$($a.name) 출장마사지 예약 전 $($a.zones) 권역의 이동 조건, 출장비 기준, 준비 사항을 개별 안내합니다." "/areas/$($a.regionSlug)/$($a.slug)/" $body "Service" "$($a.parent) $($a.name)"
+  $adminFirstZone = First-Zone $a.zones
+  $adminTypeLabel = Area-Type-Label $a.type
+  $adminScene = Clean-Sentence (Short-Text $a.scene 58)
+  $adminDisplayName = Display-Area-Name $a.parent $a.name
+  $adminTail = Meta-Check-Tail $a.type $adminFirstZone
+  return Layout "$($a.name) 출장마사지 | $adminFirstZone 중심 $adminTypeLabel 안내" "$adminDisplayName 출장마사지 안내입니다. $($a.zones) 생활권은 $adminScene. $adminTail" "/areas/$($a.regionSlug)/$($a.slug)/" $body "Service" $adminDisplayName
 }
 
 $pages = @()
@@ -590,15 +642,16 @@ foreach ($svc in $services) {
 }
 foreach ($r in $regions) {
   $path = "areas/$($r.slug)/index.html"
-  $pages += @{path=$path; url="/areas/$($r.slug)/"; html=(Build-Region $r); title="$($r.name) 출장마사지"; desc="$($r.name) 지역 안내"}
+  $pages += @{path=$path; url="/areas/$($r.slug)/"; html=(Build-Region $r); title="$($r.name) 출장마사지 - $(Short-Text $r.focus 24)"; desc="$($r.name) $((Clean-Sentence (Short-Text $r.movement 48)))"}
 }
 foreach ($d in $districts) {
   $path = "areas/seoul/$($d.slug)/index.html"
-  $pages += @{path=$path; url="/areas/seoul/$($d.slug)/"; html=(Build-District $d); title="$($d.name) 출장마사지"; desc="$($d.name) 지역 안내"}
+  $pages += @{path=$path; url="/areas/seoul/$($d.slug)/"; html=(Build-District $d); title="$($d.name) 출장마사지 - $(First-Zone $d.zones) 생활권"; desc="$($d.name) $($d.zones) $((Clean-Sentence (Short-Text $d.scene 40)))"}
 }
 foreach ($a in $adminAreas) {
   $path = "areas/$($a.regionSlug)/$($a.slug)/index.html"
-  $pages += @{path=$path; url="/areas/$($a.regionSlug)/$($a.slug)/"; html=(Build-AdminArea $a); title="$($a.name) 출장마사지"; desc="$($a.name) 지역 안내"}
+  $displayName = Display-Area-Name $a.parent $a.name
+  $pages += @{path=$path; url="/areas/$($a.regionSlug)/$($a.slug)/"; html=(Build-AdminArea $a); title="$($a.name) 출장마사지 - $(First-Zone $a.zones) $(Area-Type-Label $a.type)"; desc="$displayName $($a.zones) $((Clean-Sentence (Short-Text $a.scene 40))) $(Meta-Check-Tail $a.type (First-Zone $a.zones))"}
 }
 
 foreach ($page in $pages) {
