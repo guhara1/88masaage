@@ -943,7 +943,6 @@ $sitemapItems = ($pages | ForEach-Object {
   "  <url><loc>$(XmlEscape "$siteUrl$($_.url)")</loc><lastmod>$today</lastmod></url>"
 }) -join "`n"
 $sitemap = "<?xml version=`"1.0`" encoding=`"UTF-8`"?>`n<urlset xmlns=`"http://www.sitemaps.org/schemas/sitemap/0.9`">`n$sitemapItems`n</urlset>`n"
-Write-Utf8 "sitemap.xml" $sitemap
 Write-Utf8 "sitemap1.xml" $sitemap
 
 $rssItems = ($pages | Select-Object -First 30 | ForEach-Object {
@@ -968,7 +967,7 @@ Allow: /
 User-agent: Daumoa
 Allow: /
 
-Sitemap: $siteUrl/sitemap.xml
+Sitemap: $siteUrl/sitemap1.xml
 "@
 Write-Utf8 "robots.txt" $robots
 
