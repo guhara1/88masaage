@@ -456,6 +456,46 @@ function FaqBlock($items) {
   return $html + "</section>"
 }
 
+function Area-Pricing-Block($areaName) {
+  return @"
+<section class="pricing-band" aria-label="$areaName 요금표">
+  <div class="section-head">
+    <span class="eyebrow">PRICE GUIDE</span>
+    <h2>$areaName 요금 안내</h2>
+    <p>추가 조건은 상담 확인.</p>
+  </div>
+  <div class="price-grid">
+    <article class="price-card"><span class="tag">DRY · 건식</span><h3>타이 건식</h3><p>옷 위로 진행하는 건식 코스입니다.</p><dl><div><dt>60분</dt><dd>80,000원</dd></div><div><dt>90분</dt><dd>100,000원</dd></div><div><dt>120분</dt><dd>120,000원</dd></div></dl></article>
+    <article class="price-card"><span class="tag">WET · 오일</span><h3>아로마 습식</h3><p>오일과 부드러운 터치 코스입니다.</p><dl><div><dt>60분</dt><dd>90,000원</dd></div><div><dt>90분</dt><dd>110,000원</dd></div><div><dt>120분</dt><dd>130,000원</dd></div></dl></article>
+    <article class="price-card"><span class="tag">SIGNATURE · 오일</span><h3>감성케어 오일</h3><p>호흡에 맞춘 오일 케어입니다.</p><dl><div><dt>60분</dt><dd>100,000원</dd></div><div><dt>90분</dt><dd>120,000원</dd></div><div><dt>120분</dt><dd>140,000원</dd></div></dl></article>
+    <article class="price-card"><span class="badge">BEST</span><span class="tag">VVIP · 풀바디</span><h3>VVIP 전신케어</h3><p>건식과 오일을 잇는 풀바디입니다.</p><dl><div><dt>60분</dt><dd>110,000원</dd></div><div><dt>90분</dt><dd>130,000원</dd></div><div><dt>120분</dt><dd>150,000원</dd></div><div><dt>150분</dt><dd>180,000원</dd></div></dl></article>
+    <article class="price-card"><span class="tag">KOREAN · 매니저 지정</span><h3>한국인 스웨디시</h3><p>한국인 매니저와 압 조절 안내.</p><dl><div><dt>60분</dt><dd>150,000원</dd></div><div><dt>90분</dt><dd>190,000원</dd></div></dl></article>
+    <article class="price-card"><span class="tag">MEN · 남성 전용</span><h3>남성 스웨디시</h3><p>컨디션과 강도 확인 후 출발.</p><dl><div><dt>60분</dt><dd>100,000원</dd></div><div><dt>90분</dt><dd>130,000원</dd></div><div><dt>120분</dt><dd>160,000원</dd></div></dl></article>
+  </div>
+</section>
+"@
+}
+
+function Area-Reviews-Block($areaName, $zones) {
+  $zone = First-Zone $zones
+  return @"
+<section class="content-section reviews">
+  <div class="section-head">
+    <h2>$areaName 이용 후기</h2>
+    <p>개인정보와 과장 표현을 정리했습니다</p>
+  </div>
+  <div class="review-grid">
+    <article class="review-card"><span class="stars">★★★★★</span><p>주소와 출입 조건 확인이 빨라 대기가 짧았습니다.</p><strong>$zone 예약 고객</strong></article>
+    <article class="review-card"><span class="stars">★★★★★</span><p>요금과 추가 비용 안내가 빨라 편했습니다.</p><strong>$areaName 90분 이용</strong></article>
+    <article class="review-card"><span class="stars">★★★★★</span><p>압 조절을 다시 확인해 무리 없이 받았습니다.</p><strong>스웨디시 상담 고객</strong></article>
+    <article class="review-card"><span class="stars">★★★★☆</span><p>숙소 방문 절차를 함께 확인해 깔끔했습니다.</p><strong>$zone 숙소 이용</strong></article>
+    <article class="review-card"><span class="stars">★★★★★</span><p>심야 시간과 도착 예상을 현실적으로 들었습니다.</p><strong>$areaName 당일 문의</strong></article>
+    <article class="review-card"><span class="stars">★★★★★</span><p>피할 자극이 관리 전 잘 전달됐습니다.</p><strong>아로마 코스 이용</strong></article>
+  </div>
+</section>
+"@
+}
+
 function First-Zone($zones) {
   return (($zones -split ",")[0]).Trim()
 }
@@ -664,12 +704,11 @@ function Build-Region($r) {
   $body += Section "$($r.name) 이용 흐름" "$($r.name) 지역은 $($r.focus) 예약 전에는 세부 주소, 공간 유형, 시작 희망 시간, 출입 방식이 가장 중요합니다. 같은 지역명 안에서도 업무지구, 주거 단지, 관광 숙소, 산업단지의 이동 조건이 달라 도착 시간과 배정 가능 인력이 달라질 수 있습니다. 88마사지는 단순히 가능하다는 말보다 어떤 조건에서 안정적으로 방문할 수 있는지 먼저 확인합니다. 고객이 읽고 바로 판단할 수 있도록 지역별 이동 변수와 준비 사항을 구분해 안내합니다."
   $body += Section "생활권별 특징" "$($r.movement) 호텔과 숙소는 프런트 기준이 다르고, 아파트와 오피스텔은 공동현관이나 주차 등록 방식이 다릅니다. 이런 정보가 빠지면 예약 시간이 확정되어도 현장에서 대기 시간이 생길 수 있습니다. $($r.name)에서는 이용 장소의 이름보다 실제 진입 동선이 더 중요할 때가 많습니다. 건물명, 동·호수 전달 방식, 관리사가 연락할 수 있는 번호를 정확히 남겨 주세요."
   $body += Section "출장비와 시간 기준" "$($r.cost) 기본 요금은 관리 시간과 코스에 따라 안내되지만 이동 조건이 복잡한 곳은 추가 비용 또는 예약 가능 시간대가 달라질 수 있습니다. 88마사지는 현장에서 갑자기 조건을 바꾸지 않도록 상담 중 예상 비용과 변경 가능성을 먼저 말합니다. 심야, 원거리, 악천후, 행사장 주변 혼잡은 도착 시간에 영향을 줄 수 있습니다."
-  $body += Section "추천 관리 선택" "$($r.name) 고객은 일정 성격에 따라 다른 관리를 선택합니다. 업무 후에는 오피스케어나 스웨디시, 여행 숙소에서는 아로마테라피, 운동이나 장거리 운전 뒤에는 스포츠마사지 문의가 많습니다. 다만 서비스명보다 중요한 것은 현재 컨디션과 원하는 강도입니다. 강한 자극이 항상 좋은 선택은 아니므로 불편한 부위와 피해야 할 움직임을 미리 알려 주시면 적합한 범위로 조절합니다."
   $body += Section "이용 전 확인" "방문 공간은 깨끗하게 정리하고 귀중품은 별도로 보관하는 것이 좋습니다. 음주 직후, 발열, 급성 통증, 외상, 피부 이상이 있는 경우에는 이용을 미루는 편이 안전합니다. 88마사지는 치료나 진단을 제공하지 않으며 건강 문제가 의심되면 의료 전문가와 상담해야 합니다. 예약 취소나 시간 변경은 가능한 빨리 알려 주면 관리사 배정 손실을 줄일 수 있습니다."
   $body += Section "작성·검수 기준" "이 페이지는 $($r.name) 지역의 생활권, 이동 방식, 고객 문의 유형을 반영해 작성했습니다. 다른 지역 페이지와 같은 문단을 반복하지 않도록 지역의 실제 예약 변수와 FAQ를 다르게 구성했습니다. 검색 노출만을 위한 키워드 반복을 피하고, 고객이 예약 전 확인해야 할 정보를 먼저 배치했습니다. 내용은 고객센터 운영팀이 검수하며 변경 사항은 sitemap과 RSS에 반영합니다."
-  $body += Section "$($r.name) 예약 예시" "$($r.name)에서 상담할 때는 단순히 시·도명만 남기는 것보다 실제 머무는 권역과 건물 유형을 알려 주는 편이 좋습니다. 예를 들어 업무지구의 고층 건물, 주거 단지의 지하 주차장, 관광 숙소의 프런트 통과 여부는 모두 배정 시간에 영향을 줍니다. $($r.cost) 또한 예약자가 미리 알고 있어야 하는 부분입니다. 희망 시간이 촉박한 경우에는 가능한 관리 시간과 코스를 줄여 안내할 수 있고, 여유가 있다면 이동이 안정적인 시간대로 조정할 수 있습니다. 이런 확인 과정은 번거롭게 보일 수 있지만 현장 대기와 취소를 줄이는 가장 현실적인 방법입니다."
-  $body += Section "$($r.name) 현장 확인 기준" "방문 당일에는 관리사가 도착하기 전 연락 가능한 상태를 유지해 주세요. 지하 주차장 진입이 어렵거나 숙소 출입 정책이 바뀐 경우에는 즉시 알려 주는 것이 좋습니다. $($r.name) 지역은 생활권별로 이동 흐름이 달라 한 번의 지연이 다음 예약에도 영향을 줄 수 있습니다. 88마사지는 고객에게 무리한 준비를 요구하지 않지만, 정확한 위치와 출입 정보는 서비스 품질을 좌우하는 기본 정보로 봅니다."
   $body += Section "$($r.name) 예약자 체크리스트" "문의 전에는 희망 시작 시간, 상세 주소, 건물 유형, 주차 가능 여부, 원하는 관리 시간을 한 번에 정리해 두면 좋습니다. $($r.name)에서는 $($r.focus) 이 특성이 있어 상담 중 작은 정보 차이가 배정 결과를 바꿀 수 있습니다. 88마사지는 확인된 정보만 기준으로 안내합니다."
+  $body += Area-Pricing-Block $r.name
+  $body += Area-Reviews-Block $r.name $r.focus
   if ($childLinks) {
     $body += "<section class=`"content-section related`"><h2>$($r.name) 하위 행정지역 안내</h2><div>$childLinks</div></section>"
   }
@@ -693,9 +732,9 @@ function Build-District($d) {
   $body += Section "이용 가능한 관리" "스웨디시는 부드러운 휴식, 아로마테라피는 향과 안정감, 림프마사지는 가벼운 흐름, 스포츠마사지는 활동 후 뻐근함, 오피스케어는 목과 어깨 중심 관리에 어울립니다. $($d.name) 고객은 하루 일정과 공간 조건이 다르기 때문에 코스명만 보고 선택하기보다 원하는 느낌과 피하고 싶은 자극을 함께 말하는 것이 좋습니다. 88마사지는 치료나 효과 보장 표현을 쓰지 않고, 편안한 휴식 관리 범위에서 안내합니다."
   $body += Section "준비와 방문 매너" "관리를 받을 공간은 타월과 매트를 놓을 수 있게 정리해 주세요. 반려동물이 있거나 가족이 함께 있는 경우 관리 중 방해가 없도록 동선을 분리하면 좋습니다. 귀중품은 미리 보관하고, 향에 민감하거나 특정 오일을 피해야 한다면 예약 단계에서 알려 주세요. 관리사는 위생과 시간을 지키는 것을 기본으로 하며 고객 역시 무리한 요구를 하지 않는 선에서 안전한 이용 환경을 함께 만들어야 합니다."
   $body += Section "작성·검수 기준" "이 페이지는 $($d.name)의 권역명, 건물 유형, 예약 상황을 반영해 작성했습니다. 서울의 다른 구와 같은 문단을 반복하지 않도록 $($d.zones) 생활권의 특징을 본문에 포함했습니다. 정보는 고객센터 운영팀이 검수하며, 실제 상담에서 반복되는 질문이 바뀌면 FAQ와 안내 문단을 수정합니다. 검색을 위한 키워드 나열보다 이용자가 예약 전 확인할 수 있는 실질 정보를 우선합니다."
-  $body += Section "$($d.name) 상담 메모" "$($d.name)에서 빠르게 예약을 확인하려면 '$($d.zones) 중 어느 권역인지, 방문 장소가 자택인지 숙소인지, 주차나 공동현관 호출이 가능한지'를 함께 알려 주세요. $($d.scene) 이런 특징 때문에 같은 구 안에서도 20분 이상 도착 시간이 달라질 수 있습니다. 업무지에서는 관리 시작 전 짧은 정리 시간이 필요하고, 주거지에서는 가족이나 이웃에게 방해되지 않는 조용한 방문이 중요합니다. 88마사지는 예약을 성사시키는 것보다 실제로 편안히 받을 수 있는 조건인지 확인하는 일을 먼저 둡니다."
-  $body += Section "$($d.name) 현장 확인 기준" "$($d.name) 예약 당일에는 건물 앞 정차 가능 여부와 호출 방식을 다시 확인합니다. $($d.zones) 일대는 상권, 주거지, 역세권이 가까워 기사 이동 경로와 관리사 도보 이동 시간이 다르게 잡힐 수 있습니다. 고객이 원하는 시작 시간이 분명하다면 주소 공유를 늦추지 않는 것이 좋습니다. 방문 후에는 관리 범위와 시간을 다시 확인하고, 불편한 압이나 자세가 있으면 즉시 조절합니다. 이 기준은 모든 고객에게 같은 설명을 반복하기 위한 것이 아니라 $($d.name)에서 자주 생기는 현장 변수를 줄이기 위한 안내입니다."
   $body += Section "$($d.name) 예약자 체크리스트" "문의 전에는 $($d.zones) 중 가까운 권역, 희망 시간, 공간 유형, 관리 시간을 정리해 주세요. $districtTopic 서울 안에서도 이동 변수가 뚜렷해 세부 정보가 빠르면 더 정확한 답변을 받을 수 있습니다. 확인된 조건만으로 예약을 안내합니다."
+  $body += Area-Pricing-Block $d.name
+  $body += Area-Reviews-Block $d.name $d.zones
   $body += Dong-Links "seoul" $d.slug
   $body += FaqBlock @(
     @{q="$($d.name) $($d.zones.Split(',')[0]) 근처도 가능한가요?"; a="당일 배정 상황과 시간대에 따라 가능합니다. 상세 주소를 알려 주시면 이동 가능 시간을 확인합니다."},
@@ -717,9 +756,10 @@ function Build-AdminArea($a) {
   $body += Section "요금과 변경 기준" "요금은 관리 시간과 서비스 종류, 이동 거리, 시간대에 따라 상담 단계에서 안내합니다. $($a.name)처럼 생활권이 넓은 지역은 같은 시 안에서도 출장비가 달라질 수 있습니다. 심야 예약, 원거리 이동, 악천후, 주차 불가 상황은 배정 가능 여부에 영향을 줍니다. 예약 변경이 필요하면 가능한 빨리 알려 주세요. 관리사 이동 후 취소는 별도 기준이 적용될 수 있습니다."
   $body += Section "안전한 이용 안내" "방문 전 공간을 정리하고 귀중품을 보관해 주세요. 음주 직후, 발열, 외상, 급성 통증, 피부 이상이 있다면 이용을 미루는 것이 좋습니다. 관리 중 불편한 느낌이 있으면 즉시 말해야 하며, 관리사는 고객의 요청에 따라 압과 자세를 조절합니다. 무리한 요구나 예약 범위를 벗어난 요청은 진행하지 않습니다. 건전한 휴식 관리가 유지될 때 서비스 품질도 안정됩니다."
   $body += Section "작성·검수 기준" "이 페이지는 $($a.name) 지역의 권역명과 이동 조건을 바탕으로 작성했습니다. 지역명만 바꾸는 복사 문단을 피하기 위해 $($a.zones) 생활권과 실제 예약 변수를 본문에 반영했습니다. 고객센터 운영팀이 작성과 검수를 맡으며, 문의 패턴이 달라지면 내용을 갱신합니다. 구조화 데이터는 실제 페이지 내용과 일치하는 서비스 안내 범위로만 사용합니다."
-  $body += Section "$($a.name) 상담 메모" "$($a.name) 예약에서는 '$($a.zones) 중 어느 생활권인지'가 첫 확인 항목입니다. $adminSceneFull. 따라서 주소가 확정되지 않은 상태에서는 가능 여부가 넓게 보일 수 있지만, 실제 배정은 도로 흐름과 출입 조건을 확인해야 정확합니다. 회사 숙소, 아파트, 호텔, 단기 임대 공간은 방문 절차가 서로 다릅니다. 관리사가 도착한 뒤 출입이 막히면 고객과 관리사 모두 시간이 손실되므로 예약 전 안내가 중요합니다. 88마사지는 이런 변수를 숨기지 않고 상담 단계에서 가능한 범위와 추가 확인이 필요한 범위를 나눠 설명합니다."
-  $body += Section "$($a.name) 현장 확인 기준" "$($a.name)에서는 예약 직전 위치 확인이 특히 중요합니다. $($a.zones) 권역은 생활권이 넓거나 도로 흐름이 달라 같은 시 안에서도 이동 시간이 크게 차이 날 수 있습니다. 고객이 숙소명을 알고 있어도 실제 입구가 다른 경우가 있고, 아파트 단지는 방문자 등록 위치가 별도로 운영되기도 합니다. 상담 단계에서 이런 내용을 확인하면 현장 대기를 줄이고 관리 시간을 온전히 사용할 수 있습니다. 88마사지는 방문이 어렵다고 판단되는 상황을 숨기지 않고, 가능한 시간으로 조정하거나 예약을 보류하는 방식으로 안내합니다."
   $body += Section "$($a.name) 예약자 체크리스트" "문의 전에는 $($a.zones) 중 실제 위치, 방문 공간의 종류, 엘리베이터와 주차 조건, 원하는 관리 시간을 알려 주세요. $adminTopic $adminSceneFull. 이런 특성이 있어 상담 단계의 정보가 도착 시간과 출장비 안내에 직접 영향을 줍니다. 주소가 아직 확정되지 않았다면 가까운 기준 지점을 먼저 공유하고, 확정 후 다시 확인하는 방식이 좋습니다."
+  $adminDisplayName = Display-Area-Name $a.parent $a.name
+  $body += Area-Pricing-Block $adminDisplayName
+  $body += Area-Reviews-Block $adminDisplayName $a.zones
   $body += Dong-Links $a.regionSlug $a.slug
   $body += FaqBlock @(
     @{q="$($a.name) 외곽도 방문 가능한가요?"; a="세부 주소와 시간대에 따라 다릅니다. 상담 시 이동 가능 여부와 예상 도착 시간을 확인합니다."},
@@ -729,7 +769,6 @@ function Build-AdminArea($a) {
   $adminFirstZone = First-Zone $a.zones
   $adminTypeLabel = Area-Type-Label $a.type
   $adminScene = Clean-Sentence (Short-Text $a.scene 58)
-  $adminDisplayName = Display-Area-Name $a.parent $a.name
   $adminTail = Meta-Check-Tail $a.type $adminFirstZone
   return Layout "$($a.name) 출장마사지 | $adminFirstZone 중심 $adminTypeLabel 안내" "$adminDisplayName 출장마사지 안내입니다. $($a.zones) 생활권은 $adminScene. $adminTail" "/areas/$($a.regionSlug)/$($a.slug)/" $body "Service" $adminDisplayName
 }
@@ -743,10 +782,10 @@ function Build-DongArea($d) {
   $body += Section "관리 선택 기준" "짧은 휴식이 필요하면 스웨디시나 오피스케어처럼 부담이 적은 관리를 먼저 상담할 수 있습니다. 이동이나 출장 일정 뒤에는 아로마테라피, 활동량이 많은 날에는 스포츠마사지, 강한 압이 부담스러운 고객은 림프마사지를 고려할 수 있습니다. 다만 모든 관리는 치료나 진단 목적이 아니며 통증, 외상, 발열, 의학적 판단이 필요한 상태라면 이용을 미루고 전문가 상담을 받는 것이 우선입니다."
   $body += Section "예약 시간과 출장비" "$displayName 예약은 희망 시작 시간보다 실제 방문 가능한 조건을 먼저 봅니다. 출퇴근 시간, 행사 종료 시간, 심야 이동, 주차 불가 상황은 출장비와 도착 시간 안내에 영향을 줄 수 있습니다. 60분은 가벼운 정리, 90분은 전신 흐름과 집중 부위 조합, 120분은 여유 있는 휴식에 적합합니다. 비용은 관리 종류, 시간, 이동 조건을 확인한 뒤 상담 단계에서 안내합니다."
   $body += Section "공간 준비와 이용 매너" "관리받을 공간은 타월이나 매트를 펼칠 수 있을 정도로 정리해 주세요. 귀중품은 별도로 보관하고, 반려동물이나 가족 동선이 있다면 관리 중 방해가 없도록 미리 조정하는 것이 좋습니다. 음주 직후나 과식 직후 이용은 권하지 않습니다. 관리 중 압이 강하거나 자세가 불편하면 바로 말해 주세요. 예약 범위를 벗어난 요구나 건전한 휴식 관리 기준에 맞지 않는 요청은 진행하지 않습니다."
-  $body += Section "작성·검수 기준" "이 페이지는 $displayName 행정동 단위의 예약 확인을 돕기 위해 만들었습니다. $sourceSentence 지역명만 바꾼 문장을 대량으로 반복하지 않도록 부모 지역, 행정동명, 통합 대상 동, 출입·주차·예약 시간 변수를 페이지마다 다르게 반영합니다. 내용은 고객센터 운영팀이 검수하며, 행정동 변경이나 상담 패턴 변화가 있으면 CSV 데이터와 sitemap을 다시 생성합니다."
   $body += Section "행정동 단위 안내를 보는 방법" "$($d.name) 페이지는 더 큰 지역 페이지를 대체하기보다 예약 전 확인 범위를 좁히는 보조 안내입니다. 같은 $($d.parentShort) 안에서도 역세권, 주거 단지, 숙박시설, 업무 공간은 도착 동선과 준비 방식이 다릅니다. 그래서 이 페이지에서는 검색 키워드를 반복하기보다 $($d.sources) 생활권에서 자주 확인해야 하는 주소 확정, 주차 위치, 방문자 등록, 관리 시작 전 연락 가능 여부를 우선합니다. 실제 예약은 상담 시점의 배정 상황을 기준으로 다시 안내합니다."
-  $body += Section "데이터 반영 기준" "행정동 목록은 2026년 4월 기준 공개 행정동 경계 자료의 명칭을 바탕으로 정리했습니다. 다만 현장 예약은 지도 경계보다 실제 주소, 건물 출입 정책, 관리사 이동 가능 시간이 더 중요합니다. 행정동이 분동되거나 통합된 경우에는 검색자가 헷갈리지 않도록 대표 동명으로 묶고, 본문과 FAQ에서 통합 대상 명칭을 함께 표시합니다. 상담 기록에서 자주 확인되는 혼선도 갱신 때 반영합니다."
   $body += Section "$($d.name) 상담 체크리스트" "문의 전에는 $($d.name) 실제 위치, 희망 시간, 공간 유형, 공동현관 또는 프런트 기준, 원하는 관리 시간을 정리해 주세요. $($d.sources) 중 어느 생활권인지 알 수 있으면 배정 확인이 더 빠릅니다. 주소가 확정되지 않았다면 가까운 기준 지점을 먼저 공유하고, 확정 후 다시 확인하는 방식이 좋습니다. 88마사지는 확인된 정보만 기준으로 예약 가능 여부를 안내합니다."
+  $body += Area-Pricing-Block $displayName
+  $body += Area-Reviews-Block $displayName $d.sources
   $body += FaqBlock @(
     @{q="$($d.name)에서 당일 예약도 가능한가요?"; a="가능한 경우가 있지만 배정 상황과 이동 조건에 따라 달라집니다. 상세 주소와 희망 시간을 알려 주시면 당일 기준으로 확인합니다."},
     @{q="$($d.sources) 통합 안내는 무슨 뜻인가요?"; a="번호가 붙은 1동, 2동, 3동 등은 대표 생활권으로 묶어 한 페이지에서 안내한다는 의미입니다."},
@@ -823,7 +862,7 @@ Write-Utf8 "robots.txt" $robots
 
 $css = @"
 :root{--ink:#191714;--muted:#6e665b;--line:#e8dfd2;--paper:#fffaf1;--cream:#f8efe1;--gold:#b1843f;--green:#24483d;--red:#9d3e32}
-*{box-sizing:border-box}body{margin:0;font-family:Arial,'Noto Sans KR',sans-serif;color:var(--ink);background:var(--paper);line-height:1.75}a{color:inherit;text-decoration:none}.site-header{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:16px 5vw;background:rgba(255,250,241,.94);border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}.logo{font-weight:800;font-size:22px}.logo span{display:inline-grid;place-items:center;width:40px;height:40px;margin-right:8px;border-radius:8px;background:var(--green);color:#fff}.main-nav{display:flex;gap:18px;font-size:14px;align-items:center}.nav-group{position:relative}.submenu{position:absolute;top:100%;left:0;display:none;min-width:180px;padding:10px;background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:0 14px 34px rgba(0,0,0,.12)}.submenu a{display:block;padding:8px 10px;color:var(--ink)}.nav-group:hover .submenu,.nav-group:focus-within .submenu{display:block}.menu-button{display:none}.hero{min-height:560px;display:flex;align-items:center;background:linear-gradient(90deg,rgba(15,31,26,.92) 0%,rgba(15,31,26,.82) 38%,rgba(15,31,26,.42) 68%,rgba(15,31,26,.22) 100%),linear-gradient(0deg,rgba(15,31,26,.28),rgba(15,31,26,.28)),url('/assets/hero-wellness.png');background-size:cover;background-position:center right;padding:72px 5vw;color:#fff}.hero-inner{max-width:780px;text-shadow:0 2px 18px rgba(0,0,0,.28)}.eyebrow{color:#f4c36b;font-weight:700;letter-spacing:0}.hero h1{font-size:56px;line-height:1.1;margin:12px 0 20px}.lead{font-size:20px;max-width:760px}.hero-actions{display:flex;gap:12px;margin-top:28px}.primary,.secondary,.sticky-cta a{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 18px;border-radius:8px;font-weight:700}.primary{background:#f1bd5a;color:#22180d;text-shadow:none}.secondary{border:1px solid rgba(255,255,255,.58);color:#fff;background:rgba(15,31,26,.2);text-shadow:none}.content-section,.grid-section{max-width:1080px;margin:0 auto;padding:54px 5vw;border-bottom:1px solid var(--line)}h2{font-size:30px;line-height:1.25;margin:0 0 18px}.content-section p{margin:0;font-size:17px}.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.link-card{display:block;min-height:150px;padding:22px;border:1px solid var(--line);border-radius:8px;background:#fff}.link-card strong{display:block;font-size:20px;margin-bottom:10px}.link-card span{color:var(--muted)}.pill{display:inline-flex;margin:0 8px 8px 0;padding:10px 14px;border:1px solid var(--line);border-radius:999px;background:#fff}.faq details{border:1px solid var(--line);border-radius:8px;background:#fff;margin:12px 0;padding:14px 18px}.faq summary{cursor:pointer;font-weight:700}.site-footer{padding:42px 5vw 86px;background:#1d211e;color:#f8efe1}.site-footer p{max-width:980px;color:#d9cdbd}.sticky-cta{position:fixed;left:0;right:0;bottom:0;display:flex;gap:8px;justify-content:center;padding:10px;background:rgba(255,250,241,.94);border-top:1px solid var(--line)}.sticky-cta a:first-child{background:var(--red);color:#fff}.sticky-cta a:last-child{background:var(--green);color:#fff}@media(max-width:760px){.menu-button{display:block;border:1px solid var(--line);background:#fff;border-radius:8px;width:42px;height:42px}.main-nav{display:none;position:absolute;left:0;right:0;top:73px;flex-direction:column;align-items:flex-start;padding:18px 5vw;background:#fff;border-bottom:1px solid var(--line)}.main-nav.open{display:flex}.nav-group{width:100%}.submenu{position:static;display:block;box-shadow:none;border:0;padding:6px 0 0 12px;background:transparent}.hero{min-height:500px;padding:56px 5vw;background-position:center}.hero h1{font-size:38px}.lead{font-size:17px}.hero-actions{flex-direction:column}.card-grid{grid-template-columns:1fr}.content-section,.grid-section{padding:38px 5vw}h2{font-size:25px}}
+*{box-sizing:border-box}body{margin:0;font-family:Arial,'Noto Sans KR',sans-serif;color:var(--ink);background:var(--paper);line-height:1.75}a{color:inherit;text-decoration:none}.site-header{position:sticky;top:0;z-index:10;display:flex;align-items:center;justify-content:space-between;gap:24px;padding:16px 5vw;background:rgba(255,250,241,.94);border-bottom:1px solid var(--line);backdrop-filter:blur(10px)}.logo{font-weight:800;font-size:22px}.logo span{display:inline-grid;place-items:center;width:40px;height:40px;margin-right:8px;border-radius:8px;background:var(--green);color:#fff}.main-nav{display:flex;gap:18px;font-size:14px;align-items:center}.nav-group{position:relative}.submenu{position:absolute;top:100%;left:0;display:none;min-width:180px;padding:10px;background:#fff;border:1px solid var(--line);border-radius:8px;box-shadow:0 14px 34px rgba(0,0,0,.12)}.submenu a{display:block;padding:8px 10px;color:var(--ink)}.nav-group:hover .submenu,.nav-group:focus-within .submenu{display:block}.menu-button{display:none}.hero{min-height:560px;display:flex;align-items:center;background:linear-gradient(90deg,rgba(15,31,26,.92) 0%,rgba(15,31,26,.82) 38%,rgba(15,31,26,.42) 68%,rgba(15,31,26,.22) 100%),linear-gradient(0deg,rgba(15,31,26,.28),rgba(15,31,26,.28)),url('/assets/hero-wellness.png');background-size:cover;background-position:center right;padding:72px 5vw;color:#fff}.hero-inner{max-width:780px;text-shadow:0 2px 18px rgba(0,0,0,.28)}.eyebrow{color:#f4c36b;font-weight:700;letter-spacing:0}.hero h1{font-size:56px;line-height:1.1;margin:12px 0 20px}.lead{font-size:20px;max-width:760px}.hero-actions{display:flex;gap:12px;margin-top:28px}.primary,.secondary,.sticky-cta a{display:inline-flex;align-items:center;justify-content:center;min-height:46px;padding:0 18px;border-radius:8px;font-weight:700}.primary{background:#f1bd5a;color:#22180d;text-shadow:none}.secondary{border:1px solid rgba(255,255,255,.58);color:#fff;background:rgba(15,31,26,.2);text-shadow:none}.content-section,.grid-section{max-width:1080px;margin:0 auto;padding:54px 5vw;border-bottom:1px solid var(--line)}h2{font-size:30px;line-height:1.25;margin:0 0 18px}.content-section p{margin:0;font-size:17px}.card-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.link-card{display:block;min-height:150px;padding:22px;border:1px solid var(--line);border-radius:8px;background:#fff}.link-card strong{display:block;font-size:20px;margin-bottom:10px}.link-card span{color:var(--muted)}.pill{display:inline-flex;margin:0 8px 8px 0;padding:10px 14px;border:1px solid var(--line);border-radius:999px;background:#fff}.section-head{max-width:1080px;margin:0 auto 18px}.section-head p{color:var(--muted)}.pricing-band{max-width:none;margin:0;padding:56px 5vw;background:#090a0e;color:#fff;border-bottom:0}.pricing-band .section-head p{color:#cbd0d9}.price-grid{max-width:1080px;margin:0 auto;display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:18px}.price-card{position:relative;min-height:270px;padding:26px 28px;border:1px solid #2b2c34;border-top:2px solid #f0bd74;border-radius:8px;background:#121219}.price-card .tag{display:block;color:#f1bd5a;font-size:12px;font-weight:700;letter-spacing:2px}.price-card h3{font-size:24px;line-height:1.25;margin:12px 0}.price-card p{min-height:50px;color:#c9d0df;font-size:14px}.price-card dl{margin:18px 0 0;border-top:1px solid #2a2b33}.price-card dl div{display:flex;justify-content:space-between;gap:18px;padding:8px 0;border-bottom:1px dashed #252630}.price-card dt{color:#c9d0df}.price-card dd{margin:0;font-weight:800}.badge{position:absolute;top:14px;right:14px;background:#f0bd74;color:#191714;border-radius:999px;padding:4px 10px;font-size:11px;font-weight:800}.review-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:14px}.review-card{min-height:170px;padding:20px;border:1px solid var(--line);border-radius:8px;background:#fff}.review-card p{font-size:15px;margin:8px 0 14px}.review-card strong{font-size:13px;color:var(--muted)}.stars{color:#b1843f;font-weight:800;letter-spacing:0}.faq details{border:1px solid var(--line);border-radius:8px;background:#fff;margin:12px 0;padding:14px 18px}.faq summary{cursor:pointer;font-weight:700}.site-footer{padding:42px 5vw 86px;background:#1d211e;color:#f8efe1}.site-footer p{max-width:980px;color:#d9cdbd}.sticky-cta{position:fixed;left:0;right:0;bottom:0;display:flex;gap:8px;justify-content:center;padding:10px;background:rgba(255,250,241,.94);border-top:1px solid var(--line)}.sticky-cta a:first-child{background:var(--red);color:#fff}.sticky-cta a:last-child{background:var(--green);color:#fff}@media(max-width:760px){.menu-button{display:block;border:1px solid var(--line);background:#fff;border-radius:8px;width:42px;height:42px}.main-nav{display:none;position:absolute;left:0;right:0;top:73px;flex-direction:column;align-items:flex-start;padding:18px 5vw;background:#fff;border-bottom:1px solid var(--line)}.main-nav.open{display:flex}.nav-group{width:100%}.submenu{position:static;display:block;box-shadow:none;border:0;padding:6px 0 0 12px;background:transparent}.hero{min-height:500px;padding:56px 5vw;background-position:center}.hero h1{font-size:38px}.lead{font-size:17px}.hero-actions{flex-direction:column}.card-grid,.price-grid,.review-grid{grid-template-columns:1fr}.content-section,.grid-section,.pricing-band{padding:38px 5vw}h2{font-size:25px}}
 "@
 Write-Utf8 "styles.css" $css
 
