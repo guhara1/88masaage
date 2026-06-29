@@ -1,0 +1,15 @@
+[build]
+  # The site is pre-built static HTML committed to the repo.
+  # No build step is required — publish the repository root as-is.
+  publish = "."
+  command = ""
+
+[build.processing]
+  skip_processing = false
+
+[[headers]]
+  for = "/*"
+  [headers.values]
+    X-Content-Type-Options = "nosniff"
+    X-Frame-Options = "SAMEORIGIN"
+    Referrer-Policy = "strict-origin-when-cross-origin"
