@@ -1,7 +1,7 @@
 ﻿$ErrorActionPreference = "Stop"
 
 $brand = "88마사지"
-$siteUrl = "https://88masaage.pages.dev"
+$siteUrl = "https://88masaage.netlify.app"
 $phone = "0508-000-0088"
 $company = "YH LAB"
 $owner = "김유환"
