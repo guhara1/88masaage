@@ -2,7 +2,7 @@
 
 $brand = "88마사지"
 $siteUrl = "https://88masaage.netlify.app"
-$phone = "0508-000-0088"
+$phone = "0508-202-4741"
 $company = "YH LAB"
 $owner = "김유환"
 $businessNumber = "815-26-00585"
